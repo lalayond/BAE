@@ -1,0 +1,1 @@
+# Imágenes tarea 2-6

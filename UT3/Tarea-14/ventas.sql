@@ -327,17 +327,344 @@ sqlite> select * from cliente where ciudad in ("Madrid") and codigo_empleado_rep
 
 -- 17. Obtén un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
 
+sqlite> select c.nombre_cliente ,e.nombre, e.apellido1, e.apellido2 from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado;
+
+-- ┌────────────────────────────────┬─────────────────┬────────────┬───────────┐
+-- │         nombre_cliente         │     nombre      │ apellido1  │ apellido2 │
+-- ├────────────────────────────────┼─────────────────┼────────────┼───────────┤
+-- │ GoldFish Garden                │ Walter Santiago │ Sanchez    │ Lopez     │
+-- │ Gardening Associates           │ Walter Santiago │ Sanchez    │ Lopez     │
+-- │ Gerudo Valley                  │ Lorena          │ Paxton     │           │
+-- │ Tendo Garden                   │ Lorena          │ Paxton     │           │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │
+-- │ Beragua                        │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Club Golf Puerta del hierro    │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Naturagua                      │ Emmanuel        │ Magaña     │ Perez     │
+-- │ DaraDistribuciones             │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Madrileña de riegos            │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │
+-- │ Camunas Jardines S.L.          │ Mariano         │ López      │ Murcia    │
+-- │ Dardena S.A.                   │ Mariano         │ López      │ Murcia    │
+-- │ Jardin de Flores               │ Julian          │ Bellinelli │           │
+-- │ Flores Marivi                  │ Felipe          │ Rosas      │ Marquez   │
+-- │ Flowers, S.A                   │ Felipe          │ Rosas      │ Marquez   │
+-- │ Naturajardin                   │ Julian          │ Bellinelli │           │
+-- │ Golf S.A.                      │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Americh Golf Management SL     │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Aloha                          │ José Manuel     │ Martinez   │ De la Osa │
+-- │ El Prat                        │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Sotogrande                     │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Vivero Humanes                 │ Julian          │ Bellinelli │           │
+-- │ Fuenla City                    │ Felipe          │ Rosas      │ Marquez   │
+-- │ Jardines y Mansiones Cactus SL │ Lucio           │ Campoamor  │ Martín    │
+-- │ Jardinerías Matías SL          │ Lucio           │ Campoamor  │ Martín    │
+-- │ Agrojardin                     │ Julian          │ Bellinelli │           │
+-- │ Top Campo                      │ Felipe          │ Rosas      │ Marquez   │
+-- │ Jardineria Sara                │ Felipe          │ Rosas      │ Marquez   │
+-- │ Campohermoso                   │ Julian          │ Bellinelli │           │
+-- │ france telecom                 │ Lionel          │ Narvaez    │           │
+-- │ Musée du Louvre                │ Lionel          │ Narvaez    │           │
+-- │ Tutifruti S.A                  │ Mariko          │ Kishi      │           │
+-- │ Flores S.L.                    │ Michael         │ Bolton     │           │
+-- │ The Magic Garden               │ Michael         │ Bolton     │           │
+-- │ El Jardin Viviente S.L         │ Mariko          │ Kishi      │           │
+-- └────────────────────────────────┴─────────────────┴────────────┴───────────┘
 
 -- 18. Muestra el nombre de los clientes que hayan realizado pagos junto con el nombre de sus representantes de ventas.
+
+sqlite> select c.nombre_cliente, e.nombre, e.apellido1, e.apellido2 from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado join pago as p on c.codigo_cliente=p.codigo_cliente group by c.codigo_cliente;
+
+-- ┌────────────────────────────────┬─────────────────┬────────────┬───────────┐
+-- │         nombre_cliente         │     nombre      │ apellido1  │ apellido2 │
+-- ├────────────────────────────────┼─────────────────┼────────────┼───────────┤
+-- │ GoldFish Garden                │ Walter Santiago │ Sanchez    │ Lopez     │
+-- │ Gardening Associates           │ Walter Santiago │ Sanchez    │ Lopez     │
+-- │ Gerudo Valley                  │ Lorena          │ Paxton     │           │
+-- │ Tendo Garden                   │ Lorena          │ Paxton     │           │
+-- │ Beragua                        │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Naturagua                      │ Emmanuel        │ Magaña     │ Perez     │
+-- │ Camunas Jardines S.L.          │ Mariano         │ López      │ Murcia    │
+-- │ Dardena S.A.                   │ Mariano         │ López      │ Murcia    │
+-- │ Jardin de Flores               │ Julian          │ Bellinelli │           │
+-- │ Flores Marivi                  │ Felipe          │ Rosas      │ Marquez   │
+-- │ Golf S.A.                      │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Sotogrande                     │ José Manuel     │ Martinez   │ De la Osa │
+-- │ Jardines y Mansiones Cactus SL │ Lucio           │ Campoamor  │ Martín    │
+-- │ Jardinerías Matías SL          │ Lucio           │ Campoamor  │ Martín    │
+-- │ Agrojardin                     │ Julian          │ Bellinelli │           │
+-- │ Jardineria Sara                │ Felipe          │ Rosas      │ Marquez   │
+-- │ Tutifruti S.A                  │ Mariko          │ Kishi      │           │
+-- │ El Jardin Viviente S.L         │ Mariko          │ Kishi      │           │
+-- └────────────────────────────────┴─────────────────┴────────────┴───────────┘
+
 -- 19. Muestra el nombre de los clientes que no hayan realizado pagos junto con el nombre de sus representantes de ventas.
+
+sqlite> select c.nombre_cliente, e.nombre, e.apellido1, e.apellido2 from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado where c.codigo_cliente not in (select codigo_cliente from pago);                
+-- ┌─────────────────────────────┬─────────────┬────────────┬───────────┐
+-- │       nombre_cliente        │   nombre    │ apellido1  │ apellido2 │
+-- ├─────────────────────────────┼─────────────┼────────────┼───────────┤
+-- │ Lasas S.A.                  │ Mariano     │ López      │ Murcia    │
+-- │ Club Golf Puerta del hierro │ Emmanuel    │ Magaña     │ Perez     │
+-- │ DaraDistribuciones          │ Emmanuel    │ Magaña     │ Perez     │
+-- │ Madrileña de riegos         │ Emmanuel    │ Magaña     │ Perez     │
+-- │ Lasas S.A.                  │ Mariano     │ López      │ Murcia    │
+-- │ Flowers, S.A                │ Felipe      │ Rosas      │ Marquez   │
+-- │ Naturajardin                │ Julian      │ Bellinelli │           │
+-- │ Americh Golf Management SL  │ José Manuel │ Martinez   │ De la Osa │
+-- │ Aloha                       │ José Manuel │ Martinez   │ De la Osa │
+-- │ El Prat                     │ José Manuel │ Martinez   │ De la Osa │
+-- │ Vivero Humanes              │ Julian      │ Bellinelli │           │
+-- │ Fuenla City                 │ Felipe      │ Rosas      │ Marquez   │
+-- │ Top Campo                   │ Felipe      │ Rosas      │ Marquez   │
+-- │ Campohermoso                │ Julian      │ Bellinelli │           │
+-- │ france telecom              │ Lionel      │ Narvaez    │           │
+-- │ Musée du Louvre             │ Lionel      │ Narvaez    │           │
+-- │ Flores S.L.                 │ Michael     │ Bolton     │           │
+-- │ The Magic Garden            │ Michael     │ Bolton     │           │
+-- └─────────────────────────────┴─────────────┴────────────┴───────────┘
+
 -- 20. Devuelve el nombre de los clientes que han hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+
+sqlite> select c.nombre_cliente, e.nombre, e.apellido1, e.apellido2, o.ciudad from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado join oficina as o on o.codigo_oficina=e.codigo_oficina; 
+
+-- ┌────────────────────────────────┬─────────────────┬────────────┬───────────┬──────────────────────┐
+-- │         nombre_cliente         │     nombre      │ apellido1  │ apellido2 │        ciudad        │
+-- ├────────────────────────────────┼─────────────────┼────────────┼───────────┼──────────────────────┤
+-- │ GoldFish Garden                │ Walter Santiago │ Sanchez    │ Lopez     │ San Francisco        │
+-- │ Gardening Associates           │ Walter Santiago │ Sanchez    │ Lopez     │ San Francisco        │
+-- │ Gerudo Valley                  │ Lorena          │ Paxton     │           │ Boston               │
+-- │ Tendo Garden                   │ Lorena          │ Paxton     │           │ Boston               │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Beragua                        │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Club Golf Puerta del hierro    │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Naturagua                      │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ DaraDistribuciones             │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Madrileña de riegos            │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Camunas Jardines S.L.          │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Dardena S.A.                   │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Jardin de Flores               │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Flores Marivi                  │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Flowers, S.A                   │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Naturajardin                   │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Golf S.A.                      │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Americh Golf Management SL     │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Aloha                          │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ El Prat                        │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Sotogrande                     │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Vivero Humanes                 │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Fuenla City                    │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Jardines y Mansiones Cactus SL │ Lucio           │ Campoamor  │ Martín    │ Madrid               │
+-- │ Jardinerías Matías SL          │ Lucio           │ Campoamor  │ Martín    │ Madrid               │
+-- │ Agrojardin                     │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Top Campo                      │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Jardineria Sara                │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Campohermoso                   │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ france telecom                 │ Lionel          │ Narvaez    │           │ Paris                │
+-- │ Musée du Louvre                │ Lionel          │ Narvaez    │           │ Paris                │
+-- │ Tutifruti S.A                  │ Mariko          │ Kishi      │           │ Sydney               │
+-- │ Flores S.L.                    │ Michael         │ Bolton     │           │ San Francisco        │
+-- │ The Magic Garden               │ Michael         │ Bolton     │           │ San Francisco        │
+-- │ El Jardin Viviente S.L         │ Mariko          │ Kishi      │           │ Sydney               │
+-- └────────────────────────────────┴─────────────────┴────────────┴───────────┴──────────────────────┘
+
 -- 21. Devuelve el nombre de los clientes que no hayan hecho pagos y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+
+sqlite> select c.nombre_cliente, e.nombre, e.apellido1, e.apellido2, o.ciudad from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado join oficina as o on o.codigo_oficina=e.codigo_oficina where c.codigo_cliente not in (select 
+codigo_cliente from pago);
+-- ┌─────────────────────────────┬─────────────┬────────────┬───────────┬──────────────────────┐
+-- │       nombre_cliente        │   nombre    │ apellido1  │ apellido2 │        ciudad        │
+-- ├─────────────────────────────┼─────────────┼────────────┼───────────┼──────────────────────┤
+-- │ Lasas S.A.                  │ Mariano     │ López      │ Murcia    │ Madrid               │
+-- │ Club Golf Puerta del hierro │ Emmanuel    │ Magaña     │ Perez     │ Barcelona            │
+-- │ DaraDistribuciones          │ Emmanuel    │ Magaña     │ Perez     │ Barcelona            │
+-- │ Madrileña de riegos         │ Emmanuel    │ Magaña     │ Perez     │ Barcelona            │
+-- │ Lasas S.A.                  │ Mariano     │ López      │ Murcia    │ Madrid               │
+-- │ Flowers, S.A                │ Felipe      │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Naturajardin                │ Julian      │ Bellinelli │           │ Sydney               │
+-- │ Americh Golf Management SL  │ José Manuel │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Aloha                       │ José Manuel │ Martinez   │ De la Osa │ Barcelona            │
+-- │ El Prat                     │ José Manuel │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Vivero Humanes              │ Julian      │ Bellinelli │           │ Sydney               │
+-- │ Fuenla City                 │ Felipe      │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Top Campo                   │ Felipe      │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Campohermoso                │ Julian      │ Bellinelli │           │ Sydney               │
+-- │ france telecom              │ Lionel      │ Narvaez    │           │ Paris                │
+-- │ Musée du Louvre             │ Lionel      │ Narvaez    │           │ Paris                │
+-- │ Flores S.L.                 │ Michael     │ Bolton     │           │ San Francisco        │
+-- │ The Magic Garden            │ Michael     │ Bolton     │           │ San Francisco        │
+-- └─────────────────────────────┴─────────────┴────────────┴───────────┴──────────────────────┘
+
 -- 22. Lista la dirección de las oficinas que tengan clientes en Fuenlabrada.
+
+sqlite> select o.linea_direccion1, o.linea_direccion2 from oficina as o join empleado as e on o.codigo_oficina=e.codigo_oficina join cliente as c on c.codigo_empleado_rep_ventas=e.codigo_empleado where c.ciudad in ("Fuenlabrada") group by o.codigo_oficina;
+
+-- ┌──────────────────────────────┬────────────────────┐
+-- │       linea_direccion1       │  linea_direccion2  │
+-- ├──────────────────────────────┼────────────────────┤
+-- │ Bulevar Indalecio Prieto, 32 │                    │
+-- │ 5-11 Wentworth Avenue        │ Floor #2           │
+-- │ Francisco Aguirre, 32        │ 5º piso (exterior) │
+-- └──────────────────────────────┴────────────────────┘
+
 -- 23. Devuelve el nombre de los clientes y el nombre de sus representantes junto con la ciudad de la oficina a la que pertenece el representante.
+
+sqlite> select c.nombre_cliente, e.nombre, e.apellido1, e.apellido2, o.ciudad from cliente as c join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado join oficina as o on o.codigo_oficina=e.codigo_oficina;
+
+-- ┌────────────────────────────────┬─────────────────┬────────────┬───────────┬──────────────────────┐
+-- │         nombre_cliente         │     nombre      │ apellido1  │ apellido2 │        ciudad        │
+-- ├────────────────────────────────┼─────────────────┼────────────┼───────────┼──────────────────────┤
+-- │ GoldFish Garden                │ Walter Santiago │ Sanchez    │ Lopez     │ San Francisco        │
+-- │ Gardening Associates           │ Walter Santiago │ Sanchez    │ Lopez     │ San Francisco        │
+-- │ Gerudo Valley                  │ Lorena          │ Paxton     │           │ Boston               │
+-- │ Tendo Garden                   │ Lorena          │ Paxton     │           │ Boston               │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Beragua                        │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Club Golf Puerta del hierro    │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Naturagua                      │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ DaraDistribuciones             │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Madrileña de riegos            │ Emmanuel        │ Magaña     │ Perez     │ Barcelona            │
+-- │ Lasas S.A.                     │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Camunas Jardines S.L.          │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Dardena S.A.                   │ Mariano         │ López      │ Murcia    │ Madrid               │
+-- │ Jardin de Flores               │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Flores Marivi                  │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Flowers, S.A                   │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Naturajardin                   │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Golf S.A.                      │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Americh Golf Management SL     │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Aloha                          │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ El Prat                        │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Sotogrande                     │ José Manuel     │ Martinez   │ De la Osa │ Barcelona            │
+-- │ Vivero Humanes                 │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Fuenla City                    │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Jardines y Mansiones Cactus SL │ Lucio           │ Campoamor  │ Martín    │ Madrid               │
+-- │ Jardinerías Matías SL          │ Lucio           │ Campoamor  │ Martín    │ Madrid               │
+-- │ Agrojardin                     │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ Top Campo                      │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Jardineria Sara                │ Felipe          │ Rosas      │ Marquez   │ Talavera de la Reina │
+-- │ Campohermoso                   │ Julian          │ Bellinelli │           │ Sydney               │
+-- │ france telecom                 │ Lionel          │ Narvaez    │           │ Paris                │
+-- │ Musée du Louvre                │ Lionel          │ Narvaez    │           │ Paris                │
+-- │ Tutifruti S.A                  │ Mariko          │ Kishi      │           │ Sydney               │
+-- │ Flores S.L.                    │ Michael         │ Bolton     │           │ San Francisco        │
+-- │ The Magic Garden               │ Michael         │ Bolton     │           │ San Francisco        │
+-- │ El Jardin Viviente S.L         │ Mariko          │ Kishi      │           │ Sydney               │
+-- └────────────────────────────────┴─────────────────┴────────────┴───────────┴──────────────────────┘
+
 -- 24. Devuelve un listado con el nombre de los empleados junto con el nombre de sus jefes.
+
+sqlite> select e.nombre as nombre_empleado, e.apellido1 as apellido1_empleado, e.apellido2 as apellido2_empleado, j.nombre as nombre_jefe, j.apellido1 as apellido1_jefe, j.apellido2 as apellido2_jefe from empleado as e join empleado as j on e.codigo_jefe=j.codigo_empleado;
+
+-- ┌─────────────────┬────────────────────┬────────────────────┬─────────────┬────────────────┬────────────────┐
+-- │ nombre_empleado │ apellido1_empleado │ apellido2_empleado │ nombre_jefe │ apellido1_jefe │ apellido2_jefe │
+-- ├─────────────────┼────────────────────┼────────────────────┼─────────────┼────────────────┼────────────────┤
+-- │ Ruben           │ López              │ Martinez           │ Marcos      │ Magaña         │ Perez          │
+-- │ Alberto         │ Soria              │ Carrasco           │ Ruben       │ López          │ Martinez       │
+-- │ Maria           │ Solís              │ Jerez              │ Ruben       │ López          │ Martinez       │
+-- │ Felipe          │ Rosas              │ Marquez            │ Alberto     │ Soria          │ Carrasco       │
+-- │ Juan Carlos     │ Ortiz              │ Serrano            │ Alberto     │ Soria          │ Carrasco       │
+-- │ Carlos          │ Soria              │ Jimenez            │ Alberto     │ Soria          │ Carrasco       │
+-- │ Mariano         │ López              │ Murcia             │ Carlos      │ Soria          │ Jimenez        │
+-- │ Lucio           │ Campoamor          │ Martín             │ Carlos      │ Soria          │ Jimenez        │
+-- │ Hilario         │ Rodriguez          │ Huertas            │ Carlos      │ Soria          │ Jimenez        │
+-- │ Emmanuel        │ Magaña             │ Perez              │ Alberto     │ Soria          │ Carrasco       │
+-- │ José Manuel     │ Martinez           │ De la Osa          │ Emmanuel    │ Magaña         │ Perez          │
+-- │ David           │ Palma              │ Aceituno           │ Emmanuel    │ Magaña         │ Perez          │
+-- │ Oscar           │ Palma              │ Aceituno           │ Emmanuel    │ Magaña         │ Perez          │
+-- │ Francois        │ Fignon             │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Lionel          │ Narvaez            │                    │ Francois    │ Fignon         │                │
+-- │ Laurent         │ Serra              │                    │ Francois    │ Fignon         │                │
+-- │ Michael         │ Bolton             │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Walter Santiago │ Sanchez            │ Lopez              │ Michael     │ Bolton         │                │
+-- │ Hilary          │ Washington         │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Marcus          │ Paxton             │                    │ Hilary      │ Washington     │                │
+-- │ Lorena          │ Paxton             │                    │ Hilary      │ Washington     │                │
+-- │ Nei             │ Nishikori          │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Narumi          │ Riko               │                    │ Nei         │ Nishikori      │                │
+-- │ Takuma          │ Nomura             │                    │ Nei         │ Nishikori      │                │
+-- │ Amy             │ Johnson            │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Larry           │ Westfalls          │                    │ Amy         │ Johnson        │                │
+-- │ John            │ Walton             │                    │ Amy         │ Johnson        │                │
+-- │ Kevin           │ Fallmer            │                    │ Alberto     │ Soria          │ Carrasco       │
+-- │ Julian          │ Bellinelli         │                    │ Kevin       │ Fallmer        │                │
+-- │ Mariko          │ Kishi              │                    │ Kevin       │ Fallmer        │                │
+-- └─────────────────┴────────────────────┴────────────────────┴─────────────┴────────────────┴────────────────┘
+
 -- 25. Devuelve un listado que muestre el nombre de cada empleados, el nombre de su jefe y el nombre del jefe de sus jefe.
+
+sqlite> select e.nombre as nombre_empleado, e.apellido1 as apellido1_empleado, e.apellido2 as apellido2_empleado, j.nombre as nombre_jefe, j.apellido1 as apellido1_jefe, j.apellido2 as apellido2_jefe, jj.nombre as nombre_jefe_jefe, jj.apellido1 as apellido1_jefe_jefe, jj.apellido2 as apellido2_jefe_jefe  from empleado as e join empleado as j on e.codigo_jefe=j.codigo_empleado join empleado as jj on jj.codigo_empleado=j.codigo_jefe;
+
+-- ┌─────────────────┬────────────────────┬────────────────────┬─────────────┬────────────────┬────────────────┬──────────────────┬─────────────────────┬─────────────────────┐
+-- │ nombre_empleado │ apellido1_empleado │ apellido2_empleado │ nombre_jefe │ apellido1_jefe │ apellido2_jefe │ nombre_jefe_jefe │ apellido1_jefe_jefe │ apellido2_jefe_jefe │
+-- ├─────────────────┼────────────────────┼────────────────────┼─────────────┼────────────────┼────────────────┼──────────────────┼─────────────────────┼─────────────────────┤
+-- │ Alberto         │ Soria              │ Carrasco           │ Ruben       │ López          │ Martinez       │ Marcos           │ Magaña              │ Perez               │
+-- │ Maria           │ Solís              │ Jerez              │ Ruben       │ López          │ Martinez       │ Marcos           │ Magaña              │ Perez               │
+-- │ Felipe          │ Rosas              │ Marquez            │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Juan Carlos     │ Ortiz              │ Serrano            │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Carlos          │ Soria              │ Jimenez            │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Mariano         │ López              │ Murcia             │ Carlos      │ Soria          │ Jimenez        │ Alberto          │ Soria               │ Carrasco            │
+-- │ Lucio           │ Campoamor          │ Martín             │ Carlos      │ Soria          │ Jimenez        │ Alberto          │ Soria               │ Carrasco            │
+-- │ Hilario         │ Rodriguez          │ Huertas            │ Carlos      │ Soria          │ Jimenez        │ Alberto          │ Soria               │ Carrasco            │
+-- │ Emmanuel        │ Magaña             │ Perez              │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ José Manuel     │ Martinez           │ De la Osa          │ Emmanuel    │ Magaña         │ Perez          │ Alberto          │ Soria               │ Carrasco            │
+-- │ David           │ Palma              │ Aceituno           │ Emmanuel    │ Magaña         │ Perez          │ Alberto          │ Soria               │ Carrasco            │
+-- │ Oscar           │ Palma              │ Aceituno           │ Emmanuel    │ Magaña         │ Perez          │ Alberto          │ Soria               │ Carrasco            │
+-- │ Francois        │ Fignon             │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Lionel          │ Narvaez            │                    │ Francois    │ Fignon         │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Laurent         │ Serra              │                    │ Francois    │ Fignon         │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Michael         │ Bolton             │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Walter Santiago │ Sanchez            │ Lopez              │ Michael     │ Bolton         │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Hilary          │ Washington         │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Marcus          │ Paxton             │                    │ Hilary      │ Washington     │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Lorena          │ Paxton             │                    │ Hilary      │ Washington     │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Nei             │ Nishikori          │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Narumi          │ Riko               │                    │ Nei         │ Nishikori      │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Takuma          │ Nomura             │                    │ Nei         │ Nishikori      │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Amy             │ Johnson            │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Larry           │ Westfalls          │                    │ Amy         │ Johnson        │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ John            │ Walton             │                    │ Amy         │ Johnson        │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Kevin           │ Fallmer            │                    │ Alberto     │ Soria          │ Carrasco       │ Ruben            │ López               │ Martinez            │
+-- │ Julian          │ Bellinelli         │                    │ Kevin       │ Fallmer        │                │ Alberto          │ Soria               │ Carrasco            │
+-- │ Mariko          │ Kishi              │                    │ Kevin       │ Fallmer        │                │ Alberto          │ Soria               │ Carrasco            │
+-- └─────────────────┴────────────────────┴────────────────────┴─────────────┴────────────────┴────────────────┴──────────────────┴─────────────────────┴─────────────────────┘
+
 -- 26. Devuelve el nombre de los clientes a los que no se les ha entregado a tiempo un pedido.
+
+sqlite> select c.nombre_cliente from cliente as c join pedido as p on c.codigo_cliente=p.codigo_cliente where fecha_entrega > fecha_esperada group by c.codigo_cliente;
+
+-- ┌────────────────────────────────┐
+-- │         nombre_cliente         │
+-- ├────────────────────────────────┤
+-- │ GoldFish Garden                │
+-- │ Gardening Associates           │
+-- │ Gerudo Valley                  │
+-- │ Beragua                        │
+-- │ Naturagua                      │
+-- │ Camunas Jardines S.L.          │
+-- │ Dardena S.A.                   │
+-- │ Golf S.A.                      │
+-- │ Sotogrande                     │
+-- │ Jardines y Mansiones Cactus SL │
+-- │ Jardinerías Matías SL          │
+-- │ Jardineria Sara                │
+-- │ Tutifruti S.A                  │
+-- │ Flores S.L.                    │
+-- │ El Jardin Viviente S.L         │
+-- └────────────────────────────────┘
+
 -- 27. Devuelve un listado de las diferentes gamas de producto que ha comprado cada cliente.
+
+sqlite> select distinct  p.gama from producto as p join detalle_pedido as d on d.codigo_producto=p.codigo_producto join pedido as pe on pe.codigo_pedido=d.codigo_pedido join cliente as c on c.codigo_cliente=pe.codigo_cliente;                        
+
+-- ┌──────────────┐
+-- │     gama     │
+-- ├──────────────┤
+-- │ Frutales     │
+-- │ Ornamentales │
+-- │ Aromáticas   │
+-- │ Herramientas │
+-- └──────────────┘
 
 -- ## Consultas multitabla (LEFT JOIN, RIGHT JOIN)
 

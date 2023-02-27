@@ -669,11 +669,143 @@ sqlite> select distinct  p.gama from producto as p join detalle_pedido as d on d
 -- ## Consultas multitabla (LEFT JOIN, RIGHT JOIN)
 
 -- 28. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
+
+sqlite> select c.nombre_cliente from cliente as c left join pago as p on c.codigo_cliente=p.codigo_cliente where p.codigo_cliente is null;
+
+-- ┌─────────────────────────────┐
+-- │       nombre_cliente        │
+-- ├─────────────────────────────┤
+-- │ Lasas S.A.                  │
+-- │ Club Golf Puerta del hierro │
+-- │ DaraDistribuciones          │
+-- │ Madrileña de riegos         │
+-- │ Lasas S.A.                  │
+-- │ Flowers, S.A                │
+-- │ Naturajardin                │
+-- │ Americh Golf Management SL  │
+-- │ Aloha                       │
+-- │ El Prat                     │
+-- │ Vivero Humanes              │
+-- │ Fuenla City                 │
+-- │ Top Campo                   │
+-- │ Campohermoso                │
+-- │ france telecom              │
+-- │ Musée du Louvre             │
+-- │ Flores S.L.                 │
+-- │ The Magic Garden            │
+-- └─────────────────────────────┘
+
 -- 29. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pedido.
+
+sqlite> select c.nombre_cliente from cliente as c left join pedido as p on c.codigo_cliente=p.codigo_cliente where p.codigo_cliente is null;
+
+-- ┌─────────────────────────────┐
+-- │       nombre_cliente        │
+-- ├─────────────────────────────┤
+-- │ Lasas S.A.                  │
+-- │ Club Golf Puerta del hierro │
+-- │ DaraDistribuciones          │
+-- │ Madrileña de riegos         │
+-- │ Lasas S.A.                  │
+-- │ Flowers, S.A                │
+-- │ Naturajardin                │
+-- │ Americh Golf Management SL  │
+-- │ Aloha                       │
+-- │ El Prat                     │
+-- │ Vivero Humanes              │
+-- │ Fuenla City                 │
+-- │ Top Campo                   │
+-- │ Campohermoso                │
+-- │ france telecom              │
+-- │ Musée du Louvre             │
+-- │ The Magic Garden            │
+-- └─────────────────────────────┘
+
 -- 30. Devuelve un listado que muestre los clientes que no han realizado ningún pago y los que no han realizado ningún pedido.
+
+sqlite> select c.nombre_cliente from cliente as c left join pago as p on c.codigo_cliente=p.codigo_cliente left join pedido as pe on c.codigo_cliente=pe.codigo_cliente where pe.codigo_cliente is null;                         
+-- ┌─────────────────────────────┐
+-- │       nombre_cliente        │
+-- ├─────────────────────────────┤
+-- │ Lasas S.A.                  │
+-- │ Club Golf Puerta del hierro │
+-- │ DaraDistribuciones          │
+-- │ Madrileña de riegos         │
+-- │ Lasas S.A.                  │
+-- │ Flowers, S.A                │
+-- │ Naturajardin                │
+-- │ Americh Golf Management SL  │
+-- │ Aloha                       │
+-- │ El Prat                     │
+-- │ Vivero Humanes              │
+-- │ Fuenla City                 │
+-- │ Top Campo                   │
+-- │ Campohermoso                │
+-- │ france telecom              │
+-- │ Musée du Louvre             │
+-- │ The Magic Garden            │
+-- └─────────────────────────────┘
+
 -- 31. Devuelve un listado que muestre solamente los empleados que no tienen una oficina asociada.
+
+sqlite> select e.nombre, e.apellido1, e.apellido2 from empleado as e left join oficina as o on e.codigo_oficina=o.codigo_oficina where o.codigo_oficina is null;
+
 -- 32. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado.
+
+sqlite> select e.nombre, e.apellido1, e.apellido2 from empleado as e left join cliente as c on e.codigo_empleado=c.codigo_empleado_rep_ventas where c.codigo_empleado_rep_ventas is null;
+-- ┌─────────────┬────────────┬───────────┐
+-- │   nombre    │ apellido1  │ apellido2 │
+-- ├─────────────┼────────────┼───────────┤
+-- │ Marcos      │ Magaña     │ Perez     │
+-- │ Ruben       │ López      │ Martinez  │
+-- │ Alberto     │ Soria      │ Carrasco  │
+-- │ Maria       │ Solís      │ Jerez     │
+-- │ Juan Carlos │ Ortiz      │ Serrano   │
+-- │ Carlos      │ Soria      │ Jimenez   │
+-- │ Hilario     │ Rodriguez  │ Huertas   │
+-- │ David       │ Palma      │ Aceituno  │
+-- │ Oscar       │ Palma      │ Aceituno  │
+-- │ Francois    │ Fignon     │           │
+-- │ Laurent     │ Serra      │           │
+-- │ Hilary      │ Washington │           │
+-- │ Marcus      │ Paxton     │           │
+-- │ Nei         │ Nishikori  │           │
+-- │ Narumi      │ Riko       │           │
+-- │ Takuma      │ Nomura     │           │
+-- │ Amy         │ Johnson    │           │
+-- │ Larry       │ Westfalls  │           │
+-- │ John        │ Walton     │           │
+-- │ Kevin       │ Fallmer    │           │
+-- └─────────────┴────────────┴───────────┘
+
 -- 33. Devuelve un listado que muestre solamente los empleados que no tienen un cliente asociado junto con los datos de la oficina donde trabajan.
+
+sqlite> select e.nombre, e.apellido1, e.apellido2, o.* from empleado as e left join cliente as c on e.codigo_empleado=c.codigo_empleado_rep_ventas join oficina as o on e.codigo_oficina=o.codigo_oficina where c.codigo_empleado_rep_ventas is null;
+-- ┌─────────────┬────────────┬───────────┬────────────────┬──────────────────────┬────────────┬───────────────────┬───────────────┬─────────────────┬──────────────────────────────┬─────────────────────┐
+-- │   nombre    │ apellido1  │ apellido2 │ codigo_oficina │        ciudad        │    pais    │      region       │ codigo_postal │    telefono     │       linea_direccion1       │  linea_direccion2   │
+-- ├─────────────┼────────────┼───────────┼────────────────┼──────────────────────┼────────────┼───────────────────┼───────────────┼─────────────────┼──────────────────────────────┼─────────────────────┤
+-- │ Marcos      │ Magaña     │ Perez     │ TAL-ES         │ Talavera de la Reina │ España     │ Castilla-LaMancha │ 45632         │ +34 925 867231  │ Francisco Aguirre, 32        │ 5º piso (exterior)  │
+-- │ Ruben       │ López      │ Martinez  │ TAL-ES         │ Talavera de la Reina │ España     │ Castilla-LaMancha │ 45632         │ +34 925 867231  │ Francisco Aguirre, 32        │ 5º piso (exterior)  │
+-- │ Alberto     │ Soria      │ Carrasco  │ TAL-ES         │ Talavera de la Reina │ España     │ Castilla-LaMancha │ 45632         │ +34 925 867231  │ Francisco Aguirre, 32        │ 5º piso (exterior)  │
+-- │ Maria       │ Solís      │ Jerez     │ TAL-ES         │ Talavera de la Reina │ España     │ Castilla-LaMancha │ 45632         │ +34 925 867231  │ Francisco Aguirre, 32        │ 5º piso (exterior)  │
+-- │ Juan Carlos │ Ortiz      │ Serrano   │ TAL-ES         │ Talavera de la Reina │ España     │ Castilla-LaMancha │ 45632         │ +34 925 867231  │ Francisco Aguirre, 32        │ 5º piso (exterior)  │
+-- │ Carlos      │ Soria      │ Jimenez   │ MAD-ES         │ Madrid               │ España     │ Madrid            │ 28032         │ +34 91 7514487  │ Bulevar Indalecio Prieto, 32 │                     │
+-- │ Hilario     │ Rodriguez  │ Huertas   │ MAD-ES         │ Madrid               │ España     │ Madrid            │ 28032         │ +34 91 7514487  │ Bulevar Indalecio Prieto, 32 │                     │
+-- │ David       │ Palma      │ Aceituno  │ BCN-ES         │ Barcelona            │ España     │ Barcelona         │ 08019         │ +34 93 3561182  │ Avenida Diagonal, 38         │ 3A escalera Derecha │
+-- │ Oscar       │ Palma      │ Aceituno  │ BCN-ES         │ Barcelona            │ España     │ Barcelona         │ 08019         │ +34 93 3561182  │ Avenida Diagonal, 38         │ 3A escalera Derecha │
+-- │ Francois    │ Fignon     │           │ PAR-FR         │ Paris                │ Francia    │ EMEA              │ 75017         │ +33 14 723 4404 │ 29 Rue Jouffroy d'abbans     │                     │
+-- │ Laurent     │ Serra      │           │ PAR-FR         │ Paris                │ Francia    │ EMEA              │ 75017         │ +33 14 723 4404 │ 29 Rue Jouffroy d'abbans     │                     │
+-- │ Hilary      │ Washington │           │ BOS-USA        │ Boston               │ EEUU       │ MA                │ 02108         │ +1 215 837 0825 │ 1550 Court Place             │ Suite 102           │
+-- │ Marcus      │ Paxton     │           │ BOS-USA        │ Boston               │ EEUU       │ MA                │ 02108         │ +1 215 837 0825 │ 1550 Court Place             │ Suite 102           │
+-- │ Nei         │ Nishikori  │           │ TOK-JP         │ Tokyo                │ Japón      │ Chiyoda-Ku        │ 102-8578      │ +81 33 224 5000 │ 4-1 Kioicho                  │                     │
+-- │ Narumi      │ Riko       │           │ TOK-JP         │ Tokyo                │ Japón      │ Chiyoda-Ku        │ 102-8578      │ +81 33 224 5000 │ 4-1 Kioicho                  │                     │
+-- │ Takuma      │ Nomura     │           │ TOK-JP         │ Tokyo                │ Japón      │ Chiyoda-Ku        │ 102-8578      │ +81 33 224 5000 │ 4-1 Kioicho                  │                     │
+-- │ Amy         │ Johnson    │           │ LON-UK         │ Londres              │ Inglaterra │ EMEA              │ EC2N 1HN      │ +44 20 78772041 │ 52 Old Broad Street          │ Ground Floor        │
+-- │ Larry       │ Westfalls  │           │ LON-UK         │ Londres              │ Inglaterra │ EMEA              │ EC2N 1HN      │ +44 20 78772041 │ 52 Old Broad Street          │ Ground Floor        │
+-- │ John        │ Walton     │           │ LON-UK         │ Londres              │ Inglaterra │ EMEA              │ EC2N 1HN      │ +44 20 78772041 │ 52 Old Broad Street          │ Ground Floor        │
+-- │ Kevin       │ Fallmer    │           │ SYD-AU         │ Sydney               │ Australia  │ APAC              │ NSW 2010      │ +61 2 9264 2451 │ 5-11 Wentworth Avenue        │ Floor #2            │
+-- └─────────────┴────────────┴───────────┴────────────────┴──────────────────────┴────────────┴───────────────────┴───────────────┴─────────────────┴──────────────────────────────┴─────────────────────┘
+
 -- 34. Devuelve un listado que muestre los empleados que no tienen una oficina asociada y los que no tienen un cliente asociado.
 -- 35. Devuelve un listado de los productos que nunca han aparecido en un pedido.
 -- 36. Devuelve un listado de los productos que nunca han aparecido en un pedido. El resultado debe mostrar el nombre, la descripción y la imagen del producto.

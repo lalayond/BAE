@@ -807,26 +807,1250 @@ sqlite> select e.nombre, e.apellido1, e.apellido2, o.* from empleado as e left j
 -- └─────────────┴────────────┴───────────┴────────────────┴──────────────────────┴────────────┴───────────────────┴───────────────┴─────────────────┴──────────────────────────────┴─────────────────────┘
 
 -- 34. Devuelve un listado que muestre los empleados que no tienen una oficina asociada y los que no tienen un cliente asociado.
+
+sqlite> select e.nombre from empleado as e left join cliente as c on e.codigo_empleado=c.codigo_empleado_rep_ventas left join oficina as o on e.codigo_oficina=o.codigo_oficina where c.codigo_cliente is null and o.codigo_oficina is null;
+
 -- 35. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+
+sqlite> select p.codigo_producto, p.nombre from producto as p left join detalle_pedido as d on p.codigo_producto=d.codigo_producto where d.codigo_pedido is null; 
+-- ┌─────────────────┬─────────────────────────────────────────────────────────────┐
+-- │ codigo_producto │                           nombre                            │
+-- ├─────────────────┼─────────────────────────────────────────────────────────────┤
+-- │ FR-104          │ Olea-Olivos                                                 │
+-- │ FR-14           │ Calamondin Mini                                             │
+-- │ FR-19           │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ FR-20           │ Landora Amarillo, Rose Gaujard bicolor blanco-rojo          │
+-- │ FR-21           │ Kordes Perfect bicolor rojo-amarillo, Roundelay rojo fuerte │
+-- │ FR-24           │ Albaricoquero Corbato                                       │
+-- │ FR-25           │ Albaricoquero Moniqui                                       │
+-- │ FR-26           │ Albaricoquero Kurrot                                        │
+-- │ FR-27           │ Cerezo Burlat                                               │
+-- │ FR-28           │ Cerezo Picota                                               │
+-- │ FR-30           │ Ciruelo R. Claudia Verde                                    │
+-- │ FR-32           │ Ciruelo Golden Japan                                        │
+-- │ FR-35           │ Ciruelo Claudia Negra                                       │
+-- │ FR-38           │ Higuera Verdal                                              │
+-- │ FR-39           │ Higuera Breva                                               │
+-- │ FR-44           │ Melocotonero Spring Crest                                   │
+-- │ FR-46           │ Melocotonero Federica                                       │
+-- │ FR-49           │ Parra Uva de Mesa                                           │
+-- │ FR-5            │ Mandarino -Plantón joven                                    │
+-- │ FR-50           │ Peral Castell                                               │
+-- │ FR-51           │ Peral Williams                                              │
+-- │ FR-52           │ Peral Conference                                            │
+-- │ FR-55           │ Olivo Cipresino                                             │
+-- │ FR-59           │ Albaricoquero                                               │
+-- │ FR-61           │ Albaricoquero                                               │
+-- │ FR-62           │ Albaricoquero                                               │
+-- │ FR-63           │ Cerezo                                                      │
+-- │ FR-65           │ Cerezo                                                      │
+-- │ FR-68           │ Cerezo                                                      │
+-- │ FR-70           │ Ciruelo                                                     │
+-- │ FR-73           │ Granado                                                     │
+-- │ FR-74           │ Granado                                                     │
+-- │ FR-76           │ Granado                                                     │
+-- │ FR-83           │ Higuera                                                     │
+-- │ FR-88           │ Manzano                                                     │
+-- │ FR-92           │ Melocotonero                                                │
+-- │ FR-93           │ Melocotonero                                                │
+-- │ FR-95           │ Melocotonero                                                │
+-- │ FR-96           │ Membrillero                                                 │
+-- │ FR-97           │ Membrillero                                                 │
+-- │ FR-98           │ Membrillero                                                 │
+-- │ FR-99           │ Membrillero                                                 │
+-- │ OR-001          │ Arbustos Mix Maceta                                         │
+-- │ OR-100          │ Mimosa Injerto CLASICA Dealbata                             │
+-- │ OR-103          │ Mimosa Semilla Bayleyana                                    │
+-- │ OR-105          │ Mimosa Semilla Espectabilis                                 │
+-- │ OR-106          │ Mimosa Semilla Longifolia                                   │
+-- │ OR-107          │ Mimosa Semilla Floribunda 4 estaciones                      │
+-- │ OR-108          │ Abelia Floribunda                                           │
+-- │ OR-109          │ Callistemom (Mix)                                           │
+-- │ OR-110          │ Callistemom (Mix)                                           │
+-- │ OR-111          │ Corylus Avellana \"Contorta\"                               │
+-- │ OR-112          │ Escallonia (Mix)                                            │
+-- │ OR-113          │ Evonimus Emerald Gayeti                                     │
+-- │ OR-114          │ Evonimus Pulchellus                                         │
+-- │ OR-117          │ Hibiscus Syriacus  \"Helene\" -Blanco-C.rojo                │
+-- │ OR-118          │ Hibiscus Syriacus \"Pink Giant\" Rosa                       │
+-- │ OR-121          │ Lonicera Nitida \"Maigrum\"                                 │
+-- │ OR-124          │ Prunus pisardii                                             │
+-- │ OR-126          │ Weigelia \"Bristol Ruby\"                                   │
+-- │ OR-131          │ Leptospermum formado PIRAMIDE                               │
+-- │ OR-132          │ Leptospermum COPA                                           │
+-- │ OR-133          │ Nerium oleander-CALIDAD \"GARDEN\"                          │
+-- │ OR-134          │ Nerium Oleander Arbusto GRANDE                              │
+-- │ OR-135          │ Nerium oleander COPA  Calibre 6/8                           │
+-- │ OR-137          │ ROSAL TREPADOR                                              │
+-- │ OR-138          │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ OR-142          │ Solanum Jazminoide                                          │
+-- │ OR-143          │ Wisteria Sinensis  azul, rosa, blanca                       │
+-- │ OR-144          │ Wisteria Sinensis INJERTADAS DECÃ"                          │
+-- │ OR-145          │ Bougamvillea Sanderiana Tutor                               │
+-- │ OR-148          │ Bougamvillea Sanderiana Espaldera                           │
+-- │ OR-149          │ Bougamvillea Sanderiana Espaldera                           │
+-- │ OR-151          │ Bougamvillea Sanderiana, 3 tut. piramide                    │
+-- │ OR-153          │ Expositor Árboles clima mediterráneo                        │
+-- │ OR-154          │ Expositor Árboles borde del mar                             │
+-- │ OR-158          │ Brachychiton Acerifolius                                    │
+-- │ OR-161          │ Cassia Corimbosa                                            │
+-- │ OR-162          │ Cassia Corimbosa                                            │
+-- │ OR-163          │ Chitalpa Summer Bells                                       │
+-- │ OR-164          │ Erytrina Kafra                                              │
+-- │ OR-166          │ Eucalyptus Citriodora                                       │
+-- │ OR-167          │ Eucalyptus Ficifolia                                        │
+-- │ OR-169          │ Hibiscus Syriacus  Var. Injertadas 1 Tallo                  │
+-- │ OR-170          │ Lagunaria Patersonii                                        │
+-- │ OR-171          │ Lagunaria Patersonii                                        │
+-- │ OR-173          │ Morus Alba                                                  │
+-- │ OR-175          │ Platanus Acerifolia                                         │
+-- │ OR-178          │ Salix Babylonica  Pendula                                   │
+-- │ OR-180          │ Tamarix  Ramosissima Pink Cascade                           │
+-- │ OR-182          │ Tecoma Stands                                               │
+-- │ OR-183          │ Tecoma Stands                                               │
+-- │ OR-184          │ Tipuana Tipu                                                │
+-- │ OR-185          │ Pleioblastus distichus-Bambú enano                          │
+-- │ OR-187          │ Sasa palmata                                                │
+-- │ OR-189          │ Phylostachys aurea                                          │
+-- │ OR-190          │ Phylostachys aurea                                          │
+-- │ OR-191          │ Phylostachys Bambusa Spectabilis                            │
+-- │ OR-192          │ Phylostachys biseti                                         │
+-- │ OR-194          │ Pseudosasa japonica (Metake)                                │
+-- │ OR-195          │ Pseudosasa japonica (Metake)                                │
+-- │ OR-197          │ Cedrus Deodara \"Feeling Blue\" Novedad                     │
+-- │ OR-198          │ Juniperus chinensis \"Blue Alps\"                           │
+-- │ OR-199          │ Juniperus Chinensis Stricta                                 │
+-- │ OR-201          │ Juniperus squamata \"Blue Star\"                            │
+-- │ OR-202          │ Juniperus x media Phitzeriana verde                         │
+-- │ OR-212          │ Bismarckia Nobilis                                          │
+-- │ OR-215          │ Brahea Armata                                               │
+-- │ OR-216          │ Brahea Edulis                                               │
+-- │ OR-219          │ Butia Capitata                                              │
+-- │ OR-220          │ Butia Capitata                                              │
+-- │ OR-221          │ Butia Capitata                                              │
+-- │ OR-223          │ Chamaerops Humilis                                          │
+-- │ OR-224          │ Chamaerops Humilis                                          │
+-- │ OR-228          │ Chamaerops Humilis \"Cerifera\"                             │
+-- │ OR-229          │ Chrysalidocarpus Lutescens -ARECA                           │
+-- │ OR-230          │ Cordyline Australis -DRACAENA                               │
+-- │ OR-231          │ Cycas Revoluta                                              │
+-- │ OR-232          │ Cycas Revoluta                                              │
+-- │ OR-233          │ Dracaena Drago                                              │
+-- │ OR-235          │ Dracaena Drago                                              │
+-- │ OR-238          │ Livistonia Decipiens                                        │
+-- │ OR-239          │ Livistonia Decipiens                                        │
+-- │ OR-242          │ Rhaphis Excelsa                                             │
+-- │ OR-244          │ Sabal Minor                                                 │
+-- │ OR-245          │ Sabal Minor                                                 │
+-- │ OR-246          │ Trachycarpus Fortunei                                       │
+-- │ OR-248          │ Washingtonia Robusta                                        │
+-- │ OR-251          │ Zamia Furfuracaea                                           │
+-- └─────────────────┴─────────────────────────────────────────────────────────────┘
+
 -- 36. Devuelve un listado de los productos que nunca han aparecido en un pedido. El resultado debe mostrar el nombre, la descripción y la imagen del producto.
+
+sqlite> select p.nombre, p.descripcion from producto as p left join detalle_pedido as d on p.codigo_producto=d.codigo_producto where d.codigo_producto is null;
+
+-- ┌─────────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+-- │                           nombre                            │                         descripcion                          │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Olea-Olivos                                                 │ Existen dos hipótesis sobre el origen del olivo, una que pos │
+-- │                                                             │ tula que proviene de las costas de Siria, Líbano e Israel y  │
+-- │                                                             │ otra que considera que lo considera originario de Asia menor │
+-- │                                                             │ . La llegada a Europa probablemente tuvo lugar de mano de lo │
+-- │                                                             │ s Fenicios, en transito por Chipre, Creta, e Islas del Mar E │
+-- │                                                             │ geo, pasando a Grecia y más tarde a Italia. Los primeros ind │
+-- │                                                             │ icios de la presencia del olivo en las costas mediterráneas  │
+-- │                                                             │ españolas coinciden con el dominio romano, aunque fueron pos │
+-- │                                                             │ teriormente los árabes los que impulsaron su cultivo en Anda │
+-- │                                                             │ lucía, convirtiendo a España en el primer país productor de  │
+-- │                                                             │ aceite de oliva a nivel mundial.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Calamondin Mini                                             │ Se trata de un pequeño arbolito de copa densa, con tendencia │
+-- │                                                             │  a la verticalidad, inerme o con cortas espinas. Sus hojas s │
+-- │                                                             │ on pequeñas, elípticas de 5-10 cm de longitud, con los pecío │
+-- │                                                             │ los estrechamente alados.Posee 1 o 2 flores en situación axi │
+-- │                                                             │ lar, al final de las ramillas.Sus frutos son muy pequeños (3 │
+-- │                                                             │ -3,5 cm de diámetro), con pocas semillas, esféricos u ovales │
+-- │                                                             │ , con la zona apical aplanada; corteza de color naranja-roji │
+-- │                                                             │ zo, muy fina y fácilmente separable de la pulpa, que es dulc │
+-- │                                                             │ e, ácida y comestible..                                      │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Landora Amarillo, Rose Gaujard bicolor blanco-rojo          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Kordes Perfect bicolor rojo-amarillo, Roundelay rojo fuerte │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero Corbato                                       │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero Moniqui                                       │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero Kurrot                                        │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cerezo Burlat                                               │ Las principales especies de cerezo cultivadas en el mundo so │
+-- │                                                             │ n el cerezo dulce (Prunus avium), el guindo (P. cerasus) y e │
+-- │                                                             │ l cerezo \"Duke\", híbrido de los anteriores. Ambas especies │
+-- │                                                             │  son naturales del sureste de Europa y oeste de Asia. El cer │
+-- │                                                             │ ezo dulce tuvo su origen probablemente en el mar Negro y en  │
+-- │                                                             │ el mar Caspio, difundiéndose después hacia Europa y Asia, ll │
+-- │                                                             │ evado por los pájaros y las migraciones humanas. Fue uno de  │
+-- │                                                             │ los frutales más apreciados por los griegos y con el Imperio │
+-- │                                                             │  Romano se extendió a regiones muy diversas. En la actualida │
+-- │                                                             │ d, el cerezo se encuentra difundido por numerosas regiones y │
+-- │                                                             │  países del mundo con clima templado                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cerezo Picota                                               │ Las principales especies de cerezo cultivadas en el mundo so │
+-- │                                                             │ n el cerezo dulce (Prunus avium), el guindo (P. cerasus) y e │
+-- │                                                             │ l cerezo \"Duke\", híbrido de los anteriores. Ambas especies │
+-- │                                                             │  son naturales del sureste de Europa y oeste de Asia. El cer │
+-- │                                                             │ ezo dulce tuvo su origen probablemente en el mar Negro y en  │
+-- │                                                             │ el mar Caspio, difundiéndose después hacia Europa y Asia, ll │
+-- │                                                             │ evado por los pájaros y las migraciones humanas. Fue uno de  │
+-- │                                                             │ los frutales más apreciados por los griegos y con el Imperio │
+-- │                                                             │  Romano se extendió a regiones muy diversas. En la actualida │
+-- │                                                             │ d, el cerezo se encuentra difundido por numerosas regiones y │
+-- │                                                             │  países del mundo con clima templado                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Ciruelo R. Claudia Verde                                    │ árbol de tamaño mediano que alcanza una altura máxima de 5-6 │
+-- │                                                             │  m. Tronco de corteza pardo-azulada, brillante, lisa o agrie │
+-- │                                                             │ tada longitudinalmente. Produce ramas alternas, pequeñas, de │
+-- │                                                             │ lgadas, unas veces lisas, glabras y otras pubescentes y vell │
+-- │                                                             │ osas                                                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Ciruelo Golden Japan                                        │ árbol de tamaño mediano que alcanza una altura máxima de 5-6 │
+-- │                                                             │  m. Tronco de corteza pardo-azulada, brillante, lisa o agrie │
+-- │                                                             │ tada longitudinalmente. Produce ramas alternas, pequeñas, de │
+-- │                                                             │ lgadas, unas veces lisas, glabras y otras pubescentes y vell │
+-- │                                                             │ osas                                                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Ciruelo Claudia Negra                                       │ árbol de tamaño mediano que alcanza una altura máxima de 5-6 │
+-- │                                                             │  m. Tronco de corteza pardo-azulada, brillante, lisa o agrie │
+-- │                                                             │ tada longitudinalmente. Produce ramas alternas, pequeñas, de │
+-- │                                                             │ lgadas, unas veces lisas, glabras y otras pubescentes y vell │
+-- │                                                             │ osas                                                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Higuera Verdal                                              │ La higuera (Ficus carica L.) es un árbol típico de secano en │
+-- │                                                             │  los países mediterráneos. Su rusticidad y su fácil multipli │
+-- │                                                             │ cación hacen de la higuera un frutal muy apropiado para el c │
+-- │                                                             │ ultivo extensivo.. Siempre ha sido considerado como árbol qu │
+-- │                                                             │ e no requiere cuidado alguno una vez plantado y arraigado, l │
+-- │                                                             │ imitándose el hombre a recoger de él los frutos cuando madur │
+-- │                                                             │ an, unos para consumo en fresco y otros para conserva. Las ú │
+-- │                                                             │ nicas higueras con cuidados culturales esmerados, en muchas  │
+-- │                                                             │ comarcas, son las brevales, por el interés económico de su p │
+-- │                                                             │ rimera cosecha, la de brevas.                                │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Higuera Breva                                               │ La higuera (Ficus carica L.) es un árbol típico de secano en │
+-- │                                                             │  los países mediterráneos. Su rusticidad y su fácil multipli │
+-- │                                                             │ cación hacen de la higuera un frutal muy apropiado para el c │
+-- │                                                             │ ultivo extensivo.. Siempre ha sido considerado como árbol qu │
+-- │                                                             │ e no requiere cuidado alguno una vez plantado y arraigado, l │
+-- │                                                             │ imitándose el hombre a recoger de él los frutos cuando madur │
+-- │                                                             │ an, unos para consumo en fresco y otros para conserva. Las ú │
+-- │                                                             │ nicas higueras con cuidados culturales esmerados, en muchas  │
+-- │                                                             │ comarcas, son las brevales, por el interés económico de su p │
+-- │                                                             │ rimera cosecha, la de brevas.                                │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Melocotonero Spring Crest                                   │ Árbol caducifolio de porte bajo con corteza lisa, de color c │
+-- │                                                             │ eniciento. Sus hojas son alargadas con el margen ligeramente │
+-- │                                                             │  aserrado, de color verde brillante, algo más claras por el  │
+-- │                                                             │ envés. El melocotonero está muy arraigado en la cultura asiá │
+-- │                                                             │ tica.\r\nEn Japón, el noble heroe Momotaro, una especie de C │
+-- │                                                             │ id japonés, nació del interior de un enorme melocotón que fl │
+-- │                                                             │ otaba río abajo.\r\nEn China se piensa que comer melocotón c │
+-- │                                                             │ onfiere longevidad al ser humano, ya que formaba parte de la │
+-- │                                                             │  dieta de sus dioses inmortales.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Melocotonero Federica                                       │ Árbol caducifolio de porte bajo con corteza lisa, de color c │
+-- │                                                             │ eniciento. Sus hojas son alargadas con el margen ligeramente │
+-- │                                                             │  aserrado, de color verde brillante, algo más claras por el  │
+-- │                                                             │ envés. El melocotonero está muy arraigado en la cultura asiá │
+-- │                                                             │ tica.\r\nEn Japón, el noble heroe Momotaro, una especie de C │
+-- │                                                             │ id japonés, nació del interior de un enorme melocotón que fl │
+-- │                                                             │ otaba río abajo.\r\nEn China se piensa que comer melocotón c │
+-- │                                                             │ onfiere longevidad al ser humano, ya que formaba parte de la │
+-- │                                                             │  dieta de sus dioses inmortales.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Parra Uva de Mesa                                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mandarino -Plantón joven                                    │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Peral Castell                                               │ Árbol piramidal, redondeado en su juventud, luego oval, que  │
+-- │                                                             │ llega hasta 20 metros de altura y por término medio vive 65  │
+-- │                                                             │ años.Tronco alto, grueso, de corteza agrietada, gris, de la  │
+-- │                                                             │ cual se destacan con frecuencia placas lenticulares.Las rama │
+-- │                                                             │ s se insertan formando ángulo agudo con el tronco (45º), de  │
+-- │                                                             │ corteza lisa, primero verde y luego gris-violácea, con numer │
+-- │                                                             │ osas lenticelas.                                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Peral Williams                                              │ Árbol piramidal, redondeado en su juventud, luego oval, que  │
+-- │                                                             │ llega hasta 20 metros de altura y por término medio vive 65  │
+-- │                                                             │ años.Tronco alto, grueso, de corteza agrietada, gris, de la  │
+-- │                                                             │ cual se destacan con frecuencia placas lenticulares.Las rama │
+-- │                                                             │ s se insertan formando ángulo agudo con el tronco (45º), de  │
+-- │                                                             │ corteza lisa, primero verde y luego gris-violácea, con numer │
+-- │                                                             │ osas lenticelas.                                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Peral Conference                                            │ Árbol piramidal, redondeado en su juventud, luego oval, que  │
+-- │                                                             │ llega hasta 20 metros de altura y por término medio vive 65  │
+-- │                                                             │ años.Tronco alto, grueso, de corteza agrietada, gris, de la  │
+-- │                                                             │ cual se destacan con frecuencia placas lenticulares.Las rama │
+-- │                                                             │ s se insertan formando ángulo agudo con el tronco (45º), de  │
+-- │                                                             │ corteza lisa, primero verde y luego gris-violácea, con numer │
+-- │                                                             │ osas lenticelas.                                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Olivo Cipresino                                             │ Existen dos hipótesis sobre el origen del olivo, una que pos │
+-- │                                                             │ tula que proviene de las costas de Siria, Líbano e Israel y  │
+-- │                                                             │ otra que considera que lo considera originario de Asia menor │
+-- │                                                             │ . La llegada a Europa probablemente tuvo lugar de mano de lo │
+-- │                                                             │ s Fenicios, en transito por Chipre, Creta, e Islas del Mar E │
+-- │                                                             │ geo, pasando a Grecia y más tarde a Italia. Los primeros ind │
+-- │                                                             │ icios de la presencia del olivo en las costas mediterráneas  │
+-- │                                                             │ españolas coinciden con el dominio romano, aunque fueron pos │
+-- │                                                             │ teriormente los árabes los que impulsaron su cultivo en Anda │
+-- │                                                             │ lucía, convirtiendo a España en el primer país productor de  │
+-- │                                                             │ aceite de oliva a nivel mundial.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero                                               │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero                                               │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Albaricoquero                                               │ árbol que puede pasar de los 6 m de altura, en la región med │
+-- │                                                             │ iterránea con ramas formando una copa redondeada. La corteza │
+-- │                                                             │  del tronco es pardo-violácea, agrietada; las ramas son roji │
+-- │                                                             │ zas y extendidas cuando jóvenes y las ramas secundarias son  │
+-- │                                                             │ cortas, divergentes y escasas. Las yemas latentes son frecue │
+-- │                                                             │ ntes especialmente sobre las ramas viejas.                   │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cerezo                                                      │ Las principales especies de cerezo cultivadas en el mundo so │
+-- │                                                             │ n el cerezo dulce (Prunus avium), el guindo (P. cerasus) y e │
+-- │                                                             │ l cerezo \"Duke\", híbrido de los anteriores. Ambas especies │
+-- │                                                             │  son naturales del sureste de Europa y oeste de Asia. El cer │
+-- │                                                             │ ezo dulce tuvo su origen probablemente en el mar Negro y en  │
+-- │                                                             │ el mar Caspio, difundiéndose después hacia Europa y Asia, ll │
+-- │                                                             │ evado por los pájaros y las migraciones humanas. Fue uno de  │
+-- │                                                             │ los frutales más apreciados por los griegos y con el Imperio │
+-- │                                                             │  Romano se extendió a regiones muy diversas. En la actualida │
+-- │                                                             │ d, el cerezo se encuentra difundido por numerosas regiones y │
+-- │                                                             │  países del mundo con clima templado                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cerezo                                                      │ Las principales especies de cerezo cultivadas en el mundo so │
+-- │                                                             │ n el cerezo dulce (Prunus avium), el guindo (P. cerasus) y e │
+-- │                                                             │ l cerezo \"Duke\", híbrido de los anteriores. Ambas especies │
+-- │                                                             │  son naturales del sureste de Europa y oeste de Asia. El cer │
+-- │                                                             │ ezo dulce tuvo su origen probablemente en el mar Negro y en  │
+-- │                                                             │ el mar Caspio, difundiéndose después hacia Europa y Asia, ll │
+-- │                                                             │ evado por los pájaros y las migraciones humanas. Fue uno de  │
+-- │                                                             │ los frutales más apreciados por los griegos y con el Imperio │
+-- │                                                             │  Romano se extendió a regiones muy diversas. En la actualida │
+-- │                                                             │ d, el cerezo se encuentra difundido por numerosas regiones y │
+-- │                                                             │  países del mundo con clima templado                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cerezo                                                      │ Las principales especies de cerezo cultivadas en el mundo so │
+-- │                                                             │ n el cerezo dulce (Prunus avium), el guindo (P. cerasus) y e │
+-- │                                                             │ l cerezo \"Duke\", híbrido de los anteriores. Ambas especies │
+-- │                                                             │  son naturales del sureste de Europa y oeste de Asia. El cer │
+-- │                                                             │ ezo dulce tuvo su origen probablemente en el mar Negro y en  │
+-- │                                                             │ el mar Caspio, difundiéndose después hacia Europa y Asia, ll │
+-- │                                                             │ evado por los pájaros y las migraciones humanas. Fue uno de  │
+-- │                                                             │ los frutales más apreciados por los griegos y con el Imperio │
+-- │                                                             │  Romano se extendió a regiones muy diversas. En la actualida │
+-- │                                                             │ d, el cerezo se encuentra difundido por numerosas regiones y │
+-- │                                                             │  países del mundo con clima templado                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Ciruelo                                                     │ árbol de tamaño mediano que alcanza una altura máxima de 5-6 │
+-- │                                                             │  m. Tronco de corteza pardo-azulada, brillante, lisa o agrie │
+-- │                                                             │ tada longitudinalmente. Produce ramas alternas, pequeñas, de │
+-- │                                                             │ lgadas, unas veces lisas, glabras y otras pubescentes y vell │
+-- │                                                             │ osas                                                         │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Granado                                                     │ pequeño árbol caducifolio, a veces con porte arbustivo, de 3 │
+-- │                                                             │  a 6 m de altura, con el tronco retorcido. Madera dura y cor │
+-- │                                                             │ teza escamosa de color grisáceo. Las ramitas jóvenes son más │
+-- │                                                             │  o menos cuadrangulares o angostas y de cuatro alas, posteri │
+-- │                                                             │ ormente se vuelven redondas con corteza de color café grisác │
+-- │                                                             │ eo, la mayoría de las ramas, pero especialmente las pequeñas │
+-- │                                                             │  ramitas axilares, son en forma de espina o terminan en una  │
+-- │                                                             │ espina aguda; la copa es extendida.                          │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Granado                                                     │ pequeño árbol caducifolio, a veces con porte arbustivo, de 3 │
+-- │                                                             │  a 6 m de altura, con el tronco retorcido. Madera dura y cor │
+-- │                                                             │ teza escamosa de color grisáceo. Las ramitas jóvenes son más │
+-- │                                                             │  o menos cuadrangulares o angostas y de cuatro alas, posteri │
+-- │                                                             │ ormente se vuelven redondas con corteza de color café grisác │
+-- │                                                             │ eo, la mayoría de las ramas, pero especialmente las pequeñas │
+-- │                                                             │  ramitas axilares, son en forma de espina o terminan en una  │
+-- │                                                             │ espina aguda; la copa es extendida.                          │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Granado                                                     │ pequeño árbol caducifolio, a veces con porte arbustivo, de 3 │
+-- │                                                             │  a 6 m de altura, con el tronco retorcido. Madera dura y cor │
+-- │                                                             │ teza escamosa de color grisáceo. Las ramitas jóvenes son más │
+-- │                                                             │  o menos cuadrangulares o angostas y de cuatro alas, posteri │
+-- │                                                             │ ormente se vuelven redondas con corteza de color café grisác │
+-- │                                                             │ eo, la mayoría de las ramas, pero especialmente las pequeñas │
+-- │                                                             │  ramitas axilares, son en forma de espina o terminan en una  │
+-- │                                                             │ espina aguda; la copa es extendida.                          │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Higuera                                                     │ La higuera (Ficus carica L.) es un árbol típico de secano en │
+-- │                                                             │  los países mediterráneos. Su rusticidad y su fácil multipli │
+-- │                                                             │ cación hacen de la higuera un frutal muy apropiado para el c │
+-- │                                                             │ ultivo extensivo.. Siempre ha sido considerado como árbol qu │
+-- │                                                             │ e no requiere cuidado alguno una vez plantado y arraigado, l │
+-- │                                                             │ imitándose el hombre a recoger de él los frutos cuando madur │
+-- │                                                             │ an, unos para consumo en fresco y otros para conserva. Las ú │
+-- │                                                             │ nicas higueras con cuidados culturales esmerados, en muchas  │
+-- │                                                             │ comarcas, son las brevales, por el interés económico de su p │
+-- │                                                             │ rimera cosecha, la de brevas.                                │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Manzano                                                     │ alcanza como máximo 10 m. de altura y tiene una copa globosa │
+-- │                                                             │ . Tronco derecho que normalmente alcanza de 2 a 2,5 m. de al │
+-- │                                                             │ tura, con corteza cubierta de lenticelas, lisa, adherida, de │
+-- │                                                             │  color ceniciento verdoso sobre los ramos y escamosa y gris  │
+-- │                                                             │ parda sobre las partes viejas del árbol. Tiene una vida de u │
+-- │                                                             │ nos 60-80 años. Las ramas se insertan en ángulo abierto sobr │
+-- │                                                             │ e el tallo, de color verde oscuro, a veces tendiendo a negru │
+-- │                                                             │ zco o violáceo. Los brotes jóvenes terminan con frecuencia e │
+-- │                                                             │ n una espina                                                 │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Melocotonero                                                │ Árbol caducifolio de porte bajo con corteza lisa, de color c │
+-- │                                                             │ eniciento. Sus hojas son alargadas con el margen ligeramente │
+-- │                                                             │  aserrado, de color verde brillante, algo más claras por el  │
+-- │                                                             │ envés. El melocotonero está muy arraigado en la cultura asiá │
+-- │                                                             │ tica.\r\nEn Japón, el noble heroe Momotaro, una especie de C │
+-- │                                                             │ id japonés, nació del interior de un enorme melocotón que fl │
+-- │                                                             │ otaba río abajo.\r\nEn China se piensa que comer melocotón c │
+-- │                                                             │ onfiere longevidad al ser humano, ya que formaba parte de la │
+-- │                                                             │  dieta de sus dioses inmortales.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Melocotonero                                                │ Árbol caducifolio de porte bajo con corteza lisa, de color c │
+-- │                                                             │ eniciento. Sus hojas son alargadas con el margen ligeramente │
+-- │                                                             │  aserrado, de color verde brillante, algo más claras por el  │
+-- │                                                             │ envés. El melocotonero está muy arraigado en la cultura asiá │
+-- │                                                             │ tica.\r\nEn Japón, el noble heroe Momotaro, una especie de C │
+-- │                                                             │ id japonés, nació del interior de un enorme melocotón que fl │
+-- │                                                             │ otaba río abajo.\r\nEn China se piensa que comer melocotón c │
+-- │                                                             │ onfiere longevidad al ser humano, ya que formaba parte de la │
+-- │                                                             │  dieta de sus dioses inmortales.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Melocotonero                                                │ Árbol caducifolio de porte bajo con corteza lisa, de color c │
+-- │                                                             │ eniciento. Sus hojas son alargadas con el margen ligeramente │
+-- │                                                             │  aserrado, de color verde brillante, algo más claras por el  │
+-- │                                                             │ envés. El melocotonero está muy arraigado en la cultura asiá │
+-- │                                                             │ tica.\r\nEn Japón, el noble heroe Momotaro, una especie de C │
+-- │                                                             │ id japonés, nació del interior de un enorme melocotón que fl │
+-- │                                                             │ otaba río abajo.\r\nEn China se piensa que comer melocotón c │
+-- │                                                             │ onfiere longevidad al ser humano, ya que formaba parte de la │
+-- │                                                             │  dieta de sus dioses inmortales.                             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Membrillero                                                 │ arbolito caducifolio de 4-6 m de altura con el tronco tortuo │
+-- │                                                             │ so y la corteza lisa, grisácea, que se desprende en escamas  │
+-- │                                                             │ con la edad. Copa irregular, con ramas inermes, flexuosas, p │
+-- │                                                             │ arduzcas, punteadas. Ramillas jóvenes tomentosas             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Membrillero                                                 │ arbolito caducifolio de 4-6 m de altura con el tronco tortuo │
+-- │                                                             │ so y la corteza lisa, grisácea, que se desprende en escamas  │
+-- │                                                             │ con la edad. Copa irregular, con ramas inermes, flexuosas, p │
+-- │                                                             │ arduzcas, punteadas. Ramillas jóvenes tomentosas             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Membrillero                                                 │ arbolito caducifolio de 4-6 m de altura con el tronco tortuo │
+-- │                                                             │ so y la corteza lisa, grisácea, que se desprende en escamas  │
+-- │                                                             │ con la edad. Copa irregular, con ramas inermes, flexuosas, p │
+-- │                                                             │ arduzcas, punteadas. Ramillas jóvenes tomentosas             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Membrillero                                                 │ arbolito caducifolio de 4-6 m de altura con el tronco tortuo │
+-- │                                                             │ so y la corteza lisa, grisácea, que se desprende en escamas  │
+-- │                                                             │ con la edad. Copa irregular, con ramas inermes, flexuosas, p │
+-- │                                                             │ arduzcas, punteadas. Ramillas jóvenes tomentosas             │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Arbustos Mix Maceta                                         │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mimosa Injerto CLASICA Dealbata                             │ Acacia dealbata. Nombre común o vulgar: Mimosa fina, Mimosa, │
+-- │                                                             │  Mimosa común, Mimosa plateada, Aromo francés. Familia: Mimo │
+-- │                                                             │ saceae. Origen: Australia, Sureste, (N. G. del Sur y Victori │
+-- │                                                             │ a). Arbol de follaje persistente muy usado en parques por su │
+-- │                                                             │  atractiva floración amarilla hacia fines del invierno. Altu │
+-- │                                                             │ ra: de 3 a 10 metros generalmente. Crecimiento rápido. Folla │
+-- │                                                             │ je perenne de tonos plateados, muy ornamental. Sus hojas son │
+-- │                                                             │  de textura fina, de color verde y sus flores amarillas que  │
+-- │                                                             │ aparecen en racimos grandes. Florece de Enero a Marzo (Hemis │
+-- │                                                             │ ferio Norte). Legumbre de 5-9 cm de longitud, recta o ligera │
+-- │                                                             │ mente curvada, con los bordes algo constreñidos entre las se │
+-- │                                                             │ millas, que se disponen en el fruto longitudinalmente...     │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mimosa Semilla Bayleyana                                    │ Acacia dealbata. Nombre común o vulgar: Mimosa fina, Mimosa, │
+-- │                                                             │  Mimosa común, Mimosa plateada, Aromo francés. Familia: Mimo │
+-- │                                                             │ saceae. Origen: Australia, Sureste, (N. G. del Sur y Victori │
+-- │                                                             │ a). Arbol de follaje persistente muy usado en parques por su │
+-- │                                                             │  atractiva floración amarilla hacia fines del invierno. Altu │
+-- │                                                             │ ra: de 3 a 10 metros generalmente. Crecimiento rápido. Folla │
+-- │                                                             │ je perenne de tonos plateados, muy ornamental. Sus hojas son │
+-- │                                                             │  de textura fina, de color verde y sus flores amarillas que  │
+-- │                                                             │ aparecen en racimos grandes. Florece de Enero a Marzo (Hemis │
+-- │                                                             │ ferio Norte). Legumbre de 5-9 cm de longitud, recta o ligera │
+-- │                                                             │ mente curvada, con los bordes algo constreñidos entre las se │
+-- │                                                             │ millas, que se disponen en el fruto longitudinalmente...     │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mimosa Semilla Espectabilis                                 │ Acacia dealbata. Nombre común o vulgar: Mimosa fina, Mimosa, │
+-- │                                                             │  Mimosa común, Mimosa plateada, Aromo francés. Familia: Mimo │
+-- │                                                             │ saceae. Origen: Australia, Sureste, (N. G. del Sur y Victori │
+-- │                                                             │ a). Arbol de follaje persistente muy usado en parques por su │
+-- │                                                             │  atractiva floración amarilla hacia fines del invierno. Altu │
+-- │                                                             │ ra: de 3 a 10 metros generalmente. Crecimiento rápido. Folla │
+-- │                                                             │ je perenne de tonos plateados, muy ornamental. Sus hojas son │
+-- │                                                             │  de textura fina, de color verde y sus flores amarillas que  │
+-- │                                                             │ aparecen en racimos grandes. Florece de Enero a Marzo (Hemis │
+-- │                                                             │ ferio Norte). Legumbre de 5-9 cm de longitud, recta o ligera │
+-- │                                                             │ mente curvada, con los bordes algo constreñidos entre las se │
+-- │                                                             │ millas, que se disponen en el fruto longitudinalmente...     │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mimosa Semilla Longifolia                                   │ Acacia dealbata. Nombre común o vulgar: Mimosa fina, Mimosa, │
+-- │                                                             │  Mimosa común, Mimosa plateada, Aromo francés. Familia: Mimo │
+-- │                                                             │ saceae. Origen: Australia, Sureste, (N. G. del Sur y Victori │
+-- │                                                             │ a). Arbol de follaje persistente muy usado en parques por su │
+-- │                                                             │  atractiva floración amarilla hacia fines del invierno. Altu │
+-- │                                                             │ ra: de 3 a 10 metros generalmente. Crecimiento rápido. Folla │
+-- │                                                             │ je perenne de tonos plateados, muy ornamental. Sus hojas son │
+-- │                                                             │  de textura fina, de color verde y sus flores amarillas que  │
+-- │                                                             │ aparecen en racimos grandes. Florece de Enero a Marzo (Hemis │
+-- │                                                             │ ferio Norte). Legumbre de 5-9 cm de longitud, recta o ligera │
+-- │                                                             │ mente curvada, con los bordes algo constreñidos entre las se │
+-- │                                                             │ millas, que se disponen en el fruto longitudinalmente...     │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Mimosa Semilla Floribunda 4 estaciones                      │ Acacia dealbata. Nombre común o vulgar: Mimosa fina, Mimosa, │
+-- │                                                             │  Mimosa común, Mimosa plateada, Aromo francés. Familia: Mimo │
+-- │                                                             │ saceae. Origen: Australia, Sureste, (N. G. del Sur y Victori │
+-- │                                                             │ a). Arbol de follaje persistente muy usado en parques por su │
+-- │                                                             │  atractiva floración amarilla hacia fines del invierno. Altu │
+-- │                                                             │ ra: de 3 a 10 metros generalmente. Crecimiento rápido. Folla │
+-- │                                                             │ je perenne de tonos plateados, muy ornamental. Sus hojas son │
+-- │                                                             │  de textura fina, de color verde y sus flores amarillas que  │
+-- │                                                             │ aparecen en racimos grandes. Florece de Enero a Marzo (Hemis │
+-- │                                                             │ ferio Norte). Legumbre de 5-9 cm de longitud, recta o ligera │
+-- │                                                             │ mente curvada, con los bordes algo constreñidos entre las se │
+-- │                                                             │ millas, que se disponen en el fruto longitudinalmente...     │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Abelia Floribunda                                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Callistemom (Mix)                                           │ Limpitatubos. arbolito de 6-7 m de altura. Ramas flexibles y │
+-- │                                                             │  colgantes (de ahí lo de \"llorón\")..                       │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Callistemom (Mix)                                           │ Limpitatubos. arbolito de 6-7 m de altura. Ramas flexibles y │
+-- │                                                             │  colgantes (de ahí lo de \"llorón\")..                       │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Corylus Avellana \"Contorta\"                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Escallonia (Mix)                                            │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Evonimus Emerald Gayeti                                     │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Evonimus Pulchellus                                         │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Hibiscus Syriacus  \"Helene\" -Blanco-C.rojo                │ Por su capacidad de soportar podas, pueden ser fácilmente mo │
+-- │                                                             │ ldeadas como bonsái en el transcurso de pocos años. Flores d │
+-- │                                                             │ e muchos colores según la variedad, desde el blanco puro al  │
+-- │                                                             │ rojo intenso, del amarillo al anaranjado. La flor apenas dur │
+-- │                                                             │ a 1 día, pero continuamente aparecen nuevas y la floración s │
+-- │                                                             │ e prolonga durante todo el periodo de crecimiento vegetativo │
+-- │                                                             │ .                                                            │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Hibiscus Syriacus \"Pink Giant\" Rosa                       │ Por su capacidad de soportar podas, pueden ser fácilmente mo │
+-- │                                                             │ ldeadas como bonsái en el transcurso de pocos años. Flores d │
+-- │                                                             │ e muchos colores según la variedad, desde el blanco puro al  │
+-- │                                                             │ rojo intenso, del amarillo al anaranjado. La flor apenas dur │
+-- │                                                             │ a 1 día, pero continuamente aparecen nuevas y la floración s │
+-- │                                                             │ e prolonga durante todo el periodo de crecimiento vegetativo │
+-- │                                                             │ .                                                            │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Lonicera Nitida \"Maigrum\"                                 │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Prunus pisardii                                             │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Weigelia \"Bristol Ruby\"                                   │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Leptospermum formado PIRAMIDE                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Leptospermum COPA                                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Nerium oleander-CALIDAD \"GARDEN\"                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Nerium Oleander Arbusto GRANDE                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Nerium oleander COPA  Calibre 6/8                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ ROSAL TREPADOR                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Solanum Jazminoide                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Wisteria Sinensis  azul, rosa, blanca                       │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Wisteria Sinensis INJERTADAS DECÃ"                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Bougamvillea Sanderiana Tutor                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Bougamvillea Sanderiana Espaldera                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Bougamvillea Sanderiana Espaldera                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Bougamvillea Sanderiana, 3 tut. piramide                    │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Expositor Árboles clima mediterráneo                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Expositor Árboles borde del mar                             │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Brachychiton Acerifolius                                    │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cassia Corimbosa                                            │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cassia Corimbosa                                            │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Chitalpa Summer Bells                                       │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Erytrina Kafra                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Eucalyptus Citriodora                                       │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Eucalyptus Ficifolia                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Hibiscus Syriacus  Var. Injertadas 1 Tallo                  │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Lagunaria Patersonii                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Lagunaria Patersonii                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Morus Alba                                                  │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Platanus Acerifolia                                         │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Salix Babylonica  Pendula                                   │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Tamarix  Ramosissima Pink Cascade                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Tecoma Stands                                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Tecoma Stands                                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Tipuana Tipu                                                │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Pleioblastus distichus-Bambú enano                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Sasa palmata                                                │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Phylostachys aurea                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Phylostachys aurea                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Phylostachys Bambusa Spectabilis                            │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Phylostachys biseti                                         │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Pseudosasa japonica (Metake)                                │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Pseudosasa japonica (Metake)                                │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cedrus Deodara \"Feeling Blue\" Novedad                     │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Juniperus chinensis \"Blue Alps\"                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Juniperus Chinensis Stricta                                 │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Juniperus squamata \"Blue Star\"                            │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Juniperus x media Phitzeriana verde                         │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Bismarckia Nobilis                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Brahea Armata                                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Brahea Edulis                                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Butia Capitata                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Butia Capitata                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Butia Capitata                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Chamaerops Humilis                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Chamaerops Humilis                                          │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Chamaerops Humilis \"Cerifera\"                             │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Chrysalidocarpus Lutescens -ARECA                           │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cordyline Australis -DRACAENA                               │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cycas Revoluta                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Cycas Revoluta                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Dracaena Drago                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Dracaena Drago                                              │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Livistonia Decipiens                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Livistonia Decipiens                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Rhaphis Excelsa                                             │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Sabal Minor                                                 │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Sabal Minor                                                 │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Trachycarpus Fortunei                                       │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Washingtonia Robusta                                        │                                                              │
+-- ├─────────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Zamia Furfuracaea                                           │                                                              │
+-- └─────────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────┘
+
 -- 37. Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.
+
+sqlite> select o.codigo_oficina from oficina as o left join (select distinct e.codigo_oficina from empleado as e join cliente as c on c.codigo_empleado_rep_ventas=e.codigo_empleado where c.codigo_cliente in  (select distinct c.codigo_cliente from cliente as 
+c join pedido as p on c.codigo_cliente=p.codigo_cliente join detalle_pedido as d on p.codigo_pedido=d.codigo_pedido join producto as pr on pr.codigo_producto=d.codigo_producto where gama in ("Frutales"))) as e on o.codigo_oficina=e.codigo_oficina where e.codigo_oficina is null;
+
+-- ┌────────────────┐
+-- │ codigo_oficina │
+-- ├────────────────┤
+-- │ LON-UK         │
+-- │ PAR-FR         │
+-- │ TOK-JP         │
+-- └────────────────┘
+
 -- 38. Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.
+
+sqlite> select distinct c.nombre_cliente from cliente as c join pedido as p on c.codigo_cliente=p.codigo_cliente left join pago as pa on pa.codigo_cliente=c.codigo_cliente where pa.codigo_cliente is null; 
+
+-- ┌────────────────┐
+-- │ nombre_cliente │
+-- ├────────────────┤
+-- │ Flores S.L.    │
+-- └────────────────┘
+
 -- 39. Devuelve un listado con los datos de los empleados que no tienen clientes asociados y el nombre de su jefe asociado.
+
+sqlite> select e.nombre, e.apellido1, e.apellido1, j.nombre, j.apellido1, j.apellido2 from empleado as e join empleado as j on e.codigo_jefe=j.codigo_empleado left join cliente as c on e.codigo_empleado=c.codigo_empleado_rep_ventas where c.codigo_empleado_rep_ventas is null;
+
+-- ┌─────────────┬────────────┬────────────┬──────────┬────────────┬───────────┐
+-- │   nombre    │ apellido1  │ apellido1  │  nombre  │ apellido1  │ apellido2 │
+-- ├─────────────┼────────────┼────────────┼──────────┼────────────┼───────────┤
+-- │ Ruben       │ López      │ López      │ Marcos   │ Magaña     │ Perez     │
+-- │ Alberto     │ Soria      │ Soria      │ Ruben    │ López      │ Martinez  │
+-- │ Maria       │ Solís      │ Solís      │ Ruben    │ López      │ Martinez  │
+-- │ Juan Carlos │ Ortiz      │ Ortiz      │ Alberto  │ Soria      │ Carrasco  │
+-- │ Carlos      │ Soria      │ Soria      │ Alberto  │ Soria      │ Carrasco  │
+-- │ Hilario     │ Rodriguez  │ Rodriguez  │ Carlos   │ Soria      │ Jimenez   │
+-- │ David       │ Palma      │ Palma      │ Emmanuel │ Magaña     │ Perez     │
+-- │ Oscar       │ Palma      │ Palma      │ Emmanuel │ Magaña     │ Perez     │
+-- │ Francois    │ Fignon     │ Fignon     │ Alberto  │ Soria      │ Carrasco  │
+-- │ Laurent     │ Serra      │ Serra      │ Francois │ Fignon     │           │
+-- │ Hilary      │ Washington │ Washington │ Alberto  │ Soria      │ Carrasco  │
+-- │ Marcus      │ Paxton     │ Paxton     │ Hilary   │ Washington │           │
+-- │ Nei         │ Nishikori  │ Nishikori  │ Alberto  │ Soria      │ Carrasco  │
+-- │ Narumi      │ Riko       │ Riko       │ Nei      │ Nishikori  │           │
+-- │ Takuma      │ Nomura     │ Nomura     │ Nei      │ Nishikori  │           │
+-- │ Amy         │ Johnson    │ Johnson    │ Alberto  │ Soria      │ Carrasco  │
+-- │ Larry       │ Westfalls  │ Westfalls  │ Amy      │ Johnson    │           │
+-- │ John        │ Walton     │ Walton     │ Amy      │ Johnson    │           │
+-- │ Kevin       │ Fallmer    │ Fallmer    │ Alberto  │ Soria      │ Carrasco  │
+-- └─────────────┴────────────┴────────────┴──────────┴────────────┴───────────┘
 
 -- ## Consultas resumen
 -- 40. ¿Cuántos empleados hay en la compañía?
+
+sqlite> select count(codigo_empleado) from empleado;   
+-- ┌────────────────────────┐
+-- │ count(codigo_empleado) │
+-- ├────────────────────────┤
+-- │ 31                     │
+-- └────────────────────────┘
+
 -- 41. ¿Cuántos clientes tiene cada país?
+
+sqlite> select pais, count(codigo_cliente) from cliente group by pais;  
+
+-- ┌────────────────┬───────────────────────┐
+-- │      pais      │ count(codigo_cliente) │
+-- ├────────────────┼───────────────────────┤
+-- │ Australia      │ 2                     │
+-- │ France         │ 2                     │
+-- │ Spain          │ 27                    │
+-- │ USA            │ 4                     │
+-- │ United Kingdom │ 1                     │
+-- └────────────────┴───────────────────────┘
+
 -- 42. ¿Cuál fue el pago medio en 2009?
+
+sqlite> select avg(total) from pago where fecha_pago regexp "^2009";
+
+-- ┌──────────────────┐
+-- │    avg(total)    │
+-- ├──────────────────┤
+-- │ 4504.07692307692 │
+-- └──────────────────┘
+
 -- 43. ¿Cuántos pedidos hay en cada estado? Ordena el resultado de forma descendente por el número de pedidos.
+
+
+sqlite> select estado, count(codigo_pedido) as numero_pedidos from pedido group by estado order by numero_pedidos desc; 
+
+-- ┌───────────┬────────────────┐
+-- │  estado   │ numero_pedidos │
+-- ├───────────┼────────────────┤
+-- │ Entregado │ 61             │
+-- │ Pendiente │ 30             │
+-- │ Rechazado │ 24             │
+-- └───────────┴────────────────┘
+
 -- 44. Calcula el precio de venta del producto más caro y más barato en una misma consulta.
+
+
+
 -- 45. Calcula el número de clientes que tiene la empresa.
+
+sqlite> select count(codigo_cliente) from cliente;
+-- ┌───────────────────────┐
+-- │ count(codigo_cliente) │
+-- ├───────────────────────┤
+-- │ 36                    │
+-- └───────────────────────┘
+
 -- 46. ¿Cuántos clientes existen con domicilio en la ciudad de Madrid?
+
+sqlite> select count(codigo_cliente) from cliente where ciudad in ("Madrid");
+
+-- ┌───────────────────────┐
+-- │ count(codigo_cliente) │
+-- ├───────────────────────┤
+-- │ 11                    │
+-- └───────────────────────┘
+
 -- 47. ¿Calcula cuántos clientes tiene cada una de las ciudades que empiezan por M?
+
+sqlite> select ciudad, count(codigo_cliente) from cliente where ciudad regexp "^M" group by ciudad;
+
+-- ┌──────────────────────┬───────────────────────┐
+-- │        ciudad        │ count(codigo_cliente) │
+-- ├──────────────────────┼───────────────────────┤
+-- │ Madrid               │ 11                    │
+-- │ Miami                │ 2                     │
+-- │ Montornes del valles │ 1                     │
+-- └──────────────────────┴───────────────────────┘
+
 -- 48. Devuelve el nombre de los representantes de ventas y el número de clientes al que atiende cada uno.
+
+sqlite> select e.nombre, e.apellido1, e.apellido2, count(c.codigo_cliente) from empleado as e join cliente as c on e.codigo_empleado=c.codigo_empleado_rep_ventas group by e.codigo_empleado; 
+
+-- ┌─────────────────┬────────────┬───────────┬─────────────────────────┐
+-- │     nombre      │ apellido1  │ apellido2 │ count(c.codigo_cliente) │
+-- ├─────────────────┼────────────┼───────────┼─────────────────────────┤
+-- │ Felipe          │ Rosas      │ Marquez   │ 5                       │
+-- │ Mariano         │ López      │ Murcia    │ 4                       │
+-- │ Lucio           │ Campoamor  │ Martín    │ 2                       │
+-- │ Emmanuel        │ Magaña     │ Perez     │ 5                       │
+-- │ José Manuel     │ Martinez   │ De la Osa │ 5                       │
+-- │ Lionel          │ Narvaez    │           │ 2                       │
+-- │ Michael         │ Bolton     │           │ 2                       │
+-- │ Walter Santiago │ Sanchez    │ Lopez     │ 2                       │
+-- │ Lorena          │ Paxton     │           │ 2                       │
+-- │ Julian          │ Bellinelli │           │ 5                       │
+-- │ Mariko          │ Kishi      │           │ 2                       │
+-- └─────────────────┴────────────┴───────────┴─────────────────────────┘
+
 -- 49. Calcula el número de clientes que no tiene asignado representante de ventas.
+
+sqlite> select count(c.codigo_cliente) from cliente as c left join empleado as e on c.codigo_empleado_rep_ventas=e.codigo_empleado where e.codigo_empleado is null;
+
+-- ┌─────────────────────────┐
+-- │ count(c.codigo_cliente) │
+-- ├─────────────────────────┤
+-- │ 0                       │
+-- └─────────────────────────┘
+
 -- 50. Calcula la fecha del primer y último pago realizado por cada uno de los clientes. El listado deberá mostrar el nombre y los apellidos de cada cliente.
+
+sqlite> select c.nombre_cliente, max(pa.fecha_pago), min(pa.fecha_pago) from cliente as c join pago as pa on c.codigo_cliente=pa.codigo_cliente group by c.codigo_cliente;
+
+-- ┌────────────────────────────────┬────────────────────┬────────────────────┐
+-- │         nombre_cliente         │ max(pa.fecha_pago) │ min(pa.fecha_pago) │
+-- ├────────────────────────────────┼────────────────────┼────────────────────┤
+-- │ GoldFish Garden                │ 2008-12-10         │ 2008-11-10         │
+-- │ Gardening Associates           │ 2009-02-19         │ 2009-01-16         │
+-- │ Gerudo Valley                  │ 2007-01-08         │ 2007-01-08         │
+-- │ Tendo Garden                   │ 2006-01-18         │ 2006-01-18         │
+-- │ Beragua                        │ 2009-01-13         │ 2009-01-13         │
+-- │ Naturagua                      │ 2009-01-06         │ 2009-01-06         │
+-- │ Camunas Jardines S.L.          │ 2008-08-04         │ 2008-08-04         │
+-- │ Dardena S.A.                   │ 2008-07-15         │ 2008-07-15         │
+-- │ Jardin de Flores               │ 2009-02-15         │ 2009-01-15         │
+-- │ Flores Marivi                  │ 2009-02-16         │ 2009-02-16         │
+-- │ Golf S.A.                      │ 2009-03-06         │ 2009-03-06         │
+-- │ Sotogrande                     │ 2009-03-26         │ 2009-03-26         │
+-- │ Jardines y Mansiones Cactus SL │ 2008-03-18         │ 2008-03-18         │
+-- │ Jardinerías Matías SL          │ 2009-02-08         │ 2009-02-08         │
+-- │ Agrojardin                     │ 2009-01-13         │ 2009-01-13         │
+-- │ Jardineria Sara                │ 2009-01-16         │ 2009-01-16         │
+-- │ Tutifruti S.A                  │ 2007-10-06         │ 2007-10-06         │
+-- │ El Jardin Viviente S.L         │ 2006-05-26         │ 2006-05-26         │
+-- └────────────────────────────────┴────────────────────┴────────────────────┘
+
 -- 51. Calcula el número de productos diferentes que hay en cada uno de los pedidos.
+
+┌───────────────┬──────────┐
+│ codigo_pedido │ cantidad │
+├───────────────┼──────────┤
+│ 1             │ FR-67    │
+│ 1             │ OR-127   │
+│ 1             │ OR-141   │
+│ 1             │ OR-241   │
+│ 1             │ OR-99    │
+│ 2             │ FR-4     │
+│ 2             │ FR-40    │
+│ 2             │ OR-140   │
+│ 2             │ OR-141   │
+│ 2             │ OR-159   │
+│ 2             │ OR-227   │
+│ 2             │ OR-247   │
+│ 3             │ FR-48    │
+│ 3             │ OR-122   │
+│ 3             │ OR-123   │
+│ 3             │ OR-213   │
+│ 3             │ OR-217   │
+│ 3             │ OR-218   │
+│ 4             │ FR-31    │
+│ 4             │ FR-34    │
+│ 4             │ FR-40    │
+│ 4             │ OR-152   │
+│ 4             │ OR-155   │
+│ 4             │ OR-156   │
+│ 4             │ OR-157   │
+│ 4             │ OR-222   │
+│ 8             │ FR-106   │
+│ 8             │ FR-108   │
+│ 8             │ FR-11    │
+│ 9             │ AR-001   │
+│ 9             │ AR-008   │
+│ 9             │ FR-106   │
+│ 9             │ FR-69    │
+│ 10            │ FR-82    │
+│ 10            │ FR-91    │
+│ 10            │ OR-234   │
+│ 11            │ AR-006   │
+│ 11            │ OR-247   │
+│ 12            │ AR-009   │
+│ 13            │ 11679    │
+│ 13            │ 21636    │
+│ 13            │ FR-11    │
+│ 14            │ FR-100   │
+│ 14            │ FR-13    │
+│ 15            │ FR-84    │
+│ 15            │ OR-101   │
+│ 15            │ OR-156   │
+│ 15            │ OR-203   │
+│ 16            │ 30310    │
+│ 16            │ FR-36    │
+│ 17            │ 11679    │
+│ 17            │ 22225    │
+│ 17            │ FR-37    │
+│ 17            │ FR-64    │
+│ 17            │ OR-136   │
+│ 18            │ 22225    │
+│ 18            │ FR-22    │
+│ 18            │ OR-159   │
+│ 19            │ 30310    │
+│ 19            │ FR-23    │
+│ 19            │ FR-75    │
+│ 19            │ FR-84    │
+│ 19            │ OR-208   │
+│ 20            │ 11679    │
+│ 20            │ 30310    │
+│ 21            │ 21636    │
+│ 21            │ FR-18    │
+│ 21            │ FR-53    │
+│ 22            │ OR-240   │
+│ 23            │ AR-002   │
+│ 23            │ FR-107   │
+│ 23            │ FR-85    │
+│ 23            │ OR-249   │
+│ 24            │ 22225    │
+│ 24            │ FR-1     │
+│ 24            │ FR-23    │
+│ 24            │ OR-241   │
+│ 25            │ FR-77    │
+│ 25            │ FR-9     │
+│ 25            │ FR-94    │
+│ 26            │ FR-15    │
+│ 26            │ OR-188   │
+│ 26            │ OR-218   │
+│ 27            │ OR-101   │
+│ 27            │ OR-102   │
+│ 27            │ OR-186   │
+│ 28            │ FR-11    │
+│ 28            │ OR-213   │
+│ 28            │ OR-247   │
+│ 29            │ FR-82    │
+│ 29            │ FR-9     │
+│ 29            │ FR-94    │
+│ 29            │ OR-129   │
+│ 29            │ OR-160   │
+│ 30            │ AR-004   │
+│ 30            │ FR-108   │
+│ 30            │ FR-12    │
+│ 30            │ FR-72    │
+│ 30            │ FR-89    │
+│ 30            │ OR-120   │
+│ 31            │ AR-009   │
+│ 31            │ FR-102   │
+│ 31            │ FR-4     │
+│ 32            │ 11679    │
+│ 32            │ 21636    │
+│ 32            │ 22225    │
+│ 32            │ OR-128   │
+│ 32            │ OR-193   │
+│ 33            │ FR-17    │
+│ 33            │ FR-29    │
+│ 33            │ OR-214   │
+│ 33            │ OR-247   │
+│ 34            │ FR-3     │
+│ 34            │ FR-7     │
+│ 34            │ OR-172   │
+│ 34            │ OR-174   │
+│ 35            │ 21636    │
+│ 35            │ FR-47    │
+│ 35            │ OR-165   │
+│ 35            │ OR-181   │
+│ 35            │ OR-225   │
+│ 36            │ 30310    │
+│ 36            │ FR-1     │
+│ 36            │ OR-147   │
+│ 36            │ OR-203   │
+│ 36            │ OR-99    │
+│ 37            │ FR-105   │
+│ 37            │ FR-57    │
+│ 37            │ OR-176   │
+│ 38            │ 11679    │
+│ 38            │ 21636    │
+│ 39            │ 22225    │
+│ 39            │ 30310    │
+│ 40            │ AR-001   │
+│ 40            │ AR-002   │
+│ 41            │ AR-003   │
+│ 41            │ AR-004   │
+│ 42            │ AR-005   │
+│ 42            │ AR-006   │
+│ 43            │ AR-007   │
+│ 44            │ AR-008   │
+│ 45            │ AR-009   │
+│ 45            │ AR-010   │
+│ 46            │ FR-1     │
+│ 46            │ FR-10    │
+│ 47            │ FR-100   │
+│ 47            │ FR-101   │
+│ 48            │ FR-102   │
+│ 48            │ FR-103   │
+│ 48            │ OR-234   │
+│ 48            │ OR-236   │
+│ 48            │ OR-237   │
+│ 49            │ OR-204   │
+│ 49            │ OR-205   │
+│ 49            │ OR-206   │
+│ 50            │ OR-225   │
+│ 50            │ OR-226   │
+│ 50            │ OR-227   │
+│ 51            │ OR-209   │
+│ 51            │ OR-210   │
+│ 51            │ OR-211   │
+│ 52            │ FR-67    │
+│ 53            │ FR-2     │
+│ 53            │ FR-85    │
+│ 53            │ FR-86    │
+│ 53            │ OR-116   │
+│ 54            │ 11679    │
+│ 54            │ FR-100   │
+│ 54            │ FR-18    │
+│ 54            │ FR-79    │
+│ 54            │ OR-116   │
+│ 54            │ OR-123   │
+│ 54            │ OR-168   │
+│ 55            │ OR-115   │
+│ 55            │ OR-213   │
+│ 55            │ OR-227   │
+│ 55            │ OR-243   │
+│ 55            │ OR-247   │
+│ 56            │ OR-129   │
+│ 56            │ OR-130   │
+│ 56            │ OR-179   │
+│ 56            │ OR-196   │
+│ 56            │ OR-207   │
+│ 56            │ OR-250   │
+│ 57            │ FR-69    │
+│ 57            │ FR-81    │
+│ 57            │ FR-84    │
+│ 57            │ FR-94    │
+│ 58            │ OR-102   │
+│ 58            │ OR-139   │
+│ 58            │ OR-172   │
+│ 58            │ OR-177   │
+│ 59            │ FR-67    │
+│ 60            │ FR-67    │
+│ 61            │ FR-67    │
+│ 62            │ FR-67    │
+│ 63            │ FR-67    │
+│ 64            │ FR-67    │
+│ 65            │ FR-67    │
+│ 66            │ FR-67    │
+│ 67            │ FR-67    │
+│ 68            │ FR-67    │
+│ 74            │ FR-67    │
+│ 74            │ OR-227   │
+│ 74            │ OR-247   │
+│ 75            │ AR-006   │
+│ 75            │ FR-87    │
+│ 75            │ OR-157   │
+│ 76            │ AR-009   │
+│ 76            │ FR-79    │
+│ 76            │ FR-87    │
+│ 76            │ FR-94    │
+│ 76            │ OR-196   │
+│ 77            │ 22225    │
+│ 77            │ 30310    │
+│ 78            │ FR-53    │
+│ 78            │ FR-85    │
+│ 78            │ OR-157   │
+│ 78            │ OR-208   │
+│ 79            │ OR-240   │
+│ 80            │ FR-11    │
+│ 80            │ FR-36    │
+│ 80            │ OR-136   │
+│ 81            │ OR-208   │
+│ 82            │ OR-227   │
+│ 83            │ OR-208   │
+│ 89            │ FR-108   │
+│ 89            │ FR-3     │
+│ 89            │ FR-42    │
+│ 89            │ FR-66    │
+│ 89            │ FR-87    │
+│ 89            │ OR-157   │
+│ 90            │ AR-001   │
+│ 90            │ AR-002   │
+│ 90            │ AR-003   │
+│ 91            │ FR-100   │
+│ 91            │ FR-101   │
+│ 91            │ FR-102   │
+│ 92            │ FR-108   │
+│ 92            │ FR-11    │
+│ 92            │ FR-12    │
+│ 93            │ FR-54    │
+│ 93            │ FR-58    │
+│ 93            │ FR-60    │
+│ 94            │ 11679    │
+│ 94            │ FR-11    │
+│ 94            │ FR-4     │
+│ 95            │ FR-10    │
+│ 95            │ FR-75    │
+│ 95            │ FR-82    │
+│ 96            │ FR-43    │
+│ 96            │ FR-6     │
+│ 96            │ FR-71    │
+│ 96            │ FR-90    │
+│ 97            │ FR-41    │
+│ 97            │ FR-54    │
+│ 97            │ OR-156   │
+│ 98            │ FR-33    │
+│ 98            │ FR-56    │
+│ 98            │ FR-60    │
+│ 98            │ FR-8     │
+│ 98            │ FR-85    │
+│ 99            │ OR-157   │
+│ 99            │ OR-227   │
+│ 100           │ FR-87    │
+│ 100           │ FR-94    │
+│ 101           │ AR-006   │
+│ 101           │ AR-009   │
+│ 102           │ 22225    │
+│ 102           │ 30310    │
+│ 103           │ FR-53    │
+│ 103           │ OR-208   │
+│ 104           │ FR-85    │
+│ 104           │ OR-157   │
+│ 105           │ OR-227   │
+│ 105           │ OR-240   │
+│ 106           │ AR-009   │
+│ 106           │ OR-136   │
+│ 107           │ 30310    │
+│ 107           │ FR-11    │
+│ 108           │ FR-53    │
+│ 108           │ OR-208   │
+│ 109           │ FR-22    │
+│ 109           │ FR-36    │
+│ 109           │ FR-45    │
+│ 109           │ OR-104   │
+│ 109           │ OR-119   │
+│ 109           │ OR-125   │
+│ 109           │ OR-130   │
+│ 110           │ AR-010   │
+│ 110           │ FR-1     │
+│ 110           │ FR-16    │
+│ 111           │ FR-67    │
+│ 112           │ FR-67    │
+│ 113           │ FR-67    │
+│ 114           │ FR-67    │
+│ 115           │ FR-67    │
+│ 116           │ 21636    │
+│ 116           │ AR-001   │
+│ 116           │ AR-005   │
+│ 116           │ FR-33    │
+│ 116           │ OR-200   │
+│ 117           │ FR-78    │
+│ 117           │ FR-80    │
+│ 117           │ OR-146   │
+│ 117           │ OR-179   │
+│ 118           │ FR-67    │
+│ 119           │ FR-67    │
+│ 120           │ FR-67    │
+│ 121           │ FR-67    │
+│ 122           │ FR-67    │
+│ 123           │ FR-67    │
+│ 124           │ FR-67    │
+│ 125           │ FR-67    │
+│ 126           │ FR-67    │
+│ 127           │ FR-67    │
+│ 128           │ AR-004   │
+│ 128           │ OR-150   │
+└───────────────┴──────────┘
+
 -- 52. Calcula la suma de la cantidad total de todos los productos que aparecen en cada uno de los pedidos.
+
+
+
 -- 53. Devuelve un listado de los 20 productos más vendidos y el número total de unidades que se han vendido de cada uno. El listado deberá estar ordenado por el número total de unidades vendidas.
 -- 54. La facturación que ha tenido la empresa en toda la historia, indicando la base imponible, el IVA y el total facturado. La base imponible se calcula sumando el coste del producto por el número de unidades vendidas de la tabla detalle_pedido. El IVA es el 21 % de la base imponible, y el total la suma de los dos campos anteriores.
 -- 55. La misma información que en la pregunta anterior, pero agrupada por código de producto.
@@ -856,7 +2080,7 @@ sqlite> select e.nombre, e.apellido1, e.apellido2, o.* from empleado as e left j
 -- ## Subconsultas con EXISTS y NOT EXISTS
 -- 73. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
 
-sqlite> select nombre_cliente from cliente where  not exists (select * from pedido where pedido.codigo_cliente=cliente.codigo_cliente);
+sqlite> select nombre_cliente from cliente as c where not exists (select * from pago where c.codigo_cliente=pago.codigo_cliente);
 
 -- ┌─────────────────────────────┐
 -- │       nombre_cliente        │
@@ -877,19 +2101,540 @@ sqlite> select nombre_cliente from cliente where  not exists (select * from pedi
 -- │ Campohermoso                │
 -- │ france telecom              │
 -- │ Musée du Louvre             │
+-- │ Flores S.L.                 │
 -- │ The Magic Garden            │
 -- └─────────────────────────────┘
 
 -- 74. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
+
+sqlite> select nombre_cliente from cliente as c where exists (select * from pago where c.codigo_cliente=pago.codigo_cliente);     
+
+-- ┌────────────────────────────────┐
+-- │         nombre_cliente         │
+-- ├────────────────────────────────┤
+-- │ GoldFish Garden                │
+-- │ Gardening Associates           │
+-- │ Gerudo Valley                  │
+-- │ Tendo Garden                   │
+-- │ Beragua                        │
+-- │ Naturagua                      │
+-- │ Camunas Jardines S.L.          │
+-- │ Dardena S.A.                   │
+-- │ Jardin de Flores               │
+-- │ Flores Marivi                  │
+-- │ Golf S.A.                      │
+-- │ Sotogrande                     │
+-- │ Jardines y Mansiones Cactus SL │
+-- │ Jardinerías Matías SL          │
+-- │ Agrojardin                     │
+-- │ Jardineria Sara                │
+-- │ Tutifruti S.A                  │
+-- │ El Jardin Viviente S.L         │
+-- └────────────────────────────────┘
+
 -- 75. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+
+sqlite> select p.codigo_producto,  p.nombre from producto as p where not exists (select * from detalle_pedido where p.codigo_producto=detalle_pedido.codigo_producto); 
+-- ┌─────────────────┬─────────────────────────────────────────────────────────────┐
+-- │ codigo_producto │                           nombre                            │
+-- ├─────────────────┼─────────────────────────────────────────────────────────────┤
+-- │ FR-104          │ Olea-Olivos                                                 │
+-- │ FR-14           │ Calamondin Mini                                             │
+-- │ FR-19           │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ FR-20           │ Landora Amarillo, Rose Gaujard bicolor blanco-rojo          │
+-- │ FR-21           │ Kordes Perfect bicolor rojo-amarillo, Roundelay rojo fuerte │
+-- │ FR-24           │ Albaricoquero Corbato                                       │
+-- │ FR-25           │ Albaricoquero Moniqui                                       │
+-- │ FR-26           │ Albaricoquero Kurrot                                        │
+-- │ FR-27           │ Cerezo Burlat                                               │
+-- │ FR-28           │ Cerezo Picota                                               │
+-- │ FR-30           │ Ciruelo R. Claudia Verde                                    │
+-- │ FR-32           │ Ciruelo Golden Japan                                        │
+-- │ FR-35           │ Ciruelo Claudia Negra                                       │
+-- │ FR-38           │ Higuera Verdal                                              │
+-- │ FR-39           │ Higuera Breva                                               │
+-- │ FR-44           │ Melocotonero Spring Crest                                   │
+-- │ FR-46           │ Melocotonero Federica                                       │
+-- │ FR-49           │ Parra Uva de Mesa                                           │
+-- │ FR-5            │ Mandarino -Plantón joven                                    │
+-- │ FR-50           │ Peral Castell                                               │
+-- │ FR-51           │ Peral Williams                                              │
+-- │ FR-52           │ Peral Conference                                            │
+-- │ FR-55           │ Olivo Cipresino                                             │
+-- │ FR-59           │ Albaricoquero                                               │
+-- │ FR-61           │ Albaricoquero                                               │
+-- │ FR-62           │ Albaricoquero                                               │
+-- │ FR-63           │ Cerezo                                                      │
+-- │ FR-65           │ Cerezo                                                      │
+-- │ FR-68           │ Cerezo                                                      │
+-- │ FR-70           │ Ciruelo                                                     │
+-- │ FR-73           │ Granado                                                     │
+-- │ FR-74           │ Granado                                                     │
+-- │ FR-76           │ Granado                                                     │
+-- │ FR-83           │ Higuera                                                     │
+-- │ FR-88           │ Manzano                                                     │
+-- │ FR-92           │ Melocotonero                                                │
+-- │ FR-93           │ Melocotonero                                                │
+-- │ FR-95           │ Melocotonero                                                │
+-- │ FR-96           │ Membrillero                                                 │
+-- │ FR-97           │ Membrillero                                                 │
+-- │ FR-98           │ Membrillero                                                 │
+-- │ FR-99           │ Membrillero                                                 │
+-- │ OR-001          │ Arbustos Mix Maceta                                         │
+-- │ OR-100          │ Mimosa Injerto CLASICA Dealbata                             │
+-- │ OR-103          │ Mimosa Semilla Bayleyana                                    │
+-- │ OR-105          │ Mimosa Semilla Espectabilis                                 │
+-- │ OR-106          │ Mimosa Semilla Longifolia                                   │
+-- │ OR-107          │ Mimosa Semilla Floribunda 4 estaciones                      │
+-- │ OR-108          │ Abelia Floribunda                                           │
+-- │ OR-109          │ Callistemom (Mix)                                           │
+-- │ OR-110          │ Callistemom (Mix)                                           │
+-- │ OR-111          │ Corylus Avellana \"Contorta\"                               │
+-- │ OR-112          │ Escallonia (Mix)                                            │
+-- │ OR-113          │ Evonimus Emerald Gayeti                                     │
+-- │ OR-114          │ Evonimus Pulchellus                                         │
+-- │ OR-117          │ Hibiscus Syriacus  \"Helene\" -Blanco-C.rojo                │
+-- │ OR-118          │ Hibiscus Syriacus \"Pink Giant\" Rosa                       │
+-- │ OR-121          │ Lonicera Nitida \"Maigrum\"                                 │
+-- │ OR-124          │ Prunus pisardii                                             │
+-- │ OR-126          │ Weigelia \"Bristol Ruby\"                                   │
+-- │ OR-131          │ Leptospermum formado PIRAMIDE                               │
+-- │ OR-132          │ Leptospermum COPA                                           │
+-- │ OR-133          │ Nerium oleander-CALIDAD \"GARDEN\"                          │
+-- │ OR-134          │ Nerium Oleander Arbusto GRANDE                              │
+-- │ OR-135          │ Nerium oleander COPA  Calibre 6/8                           │
+-- │ OR-137          │ ROSAL TREPADOR                                              │
+-- │ OR-138          │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ OR-142          │ Solanum Jazminoide                                          │
+-- │ OR-143          │ Wisteria Sinensis  azul, rosa, blanca                       │
+-- │ OR-144          │ Wisteria Sinensis INJERTADAS DECÃ"                          │
+-- │ OR-145          │ Bougamvillea Sanderiana Tutor                               │
+-- │ OR-148          │ Bougamvillea Sanderiana Espaldera                           │
+-- │ OR-149          │ Bougamvillea Sanderiana Espaldera                           │
+-- │ OR-151          │ Bougamvillea Sanderiana, 3 tut. piramide                    │
+-- │ OR-153          │ Expositor Árboles clima mediterráneo                        │
+-- │ OR-154          │ Expositor Árboles borde del mar                             │
+-- │ OR-158          │ Brachychiton Acerifolius                                    │
+-- │ OR-161          │ Cassia Corimbosa                                            │
+-- │ OR-162          │ Cassia Corimbosa                                            │
+-- │ OR-163          │ Chitalpa Summer Bells                                       │
+-- │ OR-164          │ Erytrina Kafra                                              │
+-- │ OR-166          │ Eucalyptus Citriodora                                       │
+-- │ OR-167          │ Eucalyptus Ficifolia                                        │
+-- │ OR-169          │ Hibiscus Syriacus  Var. Injertadas 1 Tallo                  │
+-- │ OR-170          │ Lagunaria Patersonii                                        │
+-- │ OR-171          │ Lagunaria Patersonii                                        │
+-- │ OR-173          │ Morus Alba                                                  │
+-- │ OR-175          │ Platanus Acerifolia                                         │
+-- │ OR-178          │ Salix Babylonica  Pendula                                   │
+-- │ OR-180          │ Tamarix  Ramosissima Pink Cascade                           │
+-- │ OR-182          │ Tecoma Stands                                               │
+-- │ OR-183          │ Tecoma Stands                                               │
+-- │ OR-184          │ Tipuana Tipu                                                │
+-- │ OR-185          │ Pleioblastus distichus-Bambú enano                          │
+-- │ OR-187          │ Sasa palmata                                                │
+-- │ OR-189          │ Phylostachys aurea                                          │
+-- │ OR-190          │ Phylostachys aurea                                          │
+-- │ OR-191          │ Phylostachys Bambusa Spectabilis                            │
+-- │ OR-192          │ Phylostachys biseti                                         │
+-- │ OR-194          │ Pseudosasa japonica (Metake)                                │
+-- │ OR-195          │ Pseudosasa japonica (Metake)                                │
+-- │ OR-197          │ Cedrus Deodara \"Feeling Blue\" Novedad                     │
+-- │ OR-198          │ Juniperus chinensis \"Blue Alps\"                           │
+-- │ OR-199          │ Juniperus Chinensis Stricta                                 │
+-- │ OR-201          │ Juniperus squamata \"Blue Star\"                            │
+-- │ OR-202          │ Juniperus x media Phitzeriana verde                         │
+-- │ OR-212          │ Bismarckia Nobilis                                          │
+-- │ OR-215          │ Brahea Armata                                               │
+-- │ OR-216          │ Brahea Edulis                                               │
+-- │ OR-219          │ Butia Capitata                                              │
+-- │ OR-220          │ Butia Capitata                                              │
+-- │ OR-221          │ Butia Capitata                                              │
+-- │ OR-223          │ Chamaerops Humilis                                          │
+-- │ OR-224          │ Chamaerops Humilis                                          │
+-- │ OR-228          │ Chamaerops Humilis \"Cerifera\"                             │
+-- │ OR-229          │ Chrysalidocarpus Lutescens -ARECA                           │
+-- │ OR-230          │ Cordyline Australis -DRACAENA                               │
+-- │ OR-231          │ Cycas Revoluta                                              │
+-- │ OR-232          │ Cycas Revoluta                                              │
+-- │ OR-233          │ Dracaena Drago                                              │
+-- │ OR-235          │ Dracaena Drago                                              │
+-- │ OR-238          │ Livistonia Decipiens                                        │
+-- │ OR-239          │ Livistonia Decipiens                                        │
+-- │ OR-242          │ Rhaphis Excelsa                                             │
+-- │ OR-244          │ Sabal Minor                                                 │
+-- │ OR-245          │ Sabal Minor                                                 │
+-- │ OR-246          │ Trachycarpus Fortunei                                       │
+-- │ OR-248          │ Washingtonia Robusta                                        │
+-- │ OR-251          │ Zamia Furfuracaea                                           │
+-- └─────────────────┴─────────────────────────────────────────────────────────────┘
+
 -- 76. Devuelve un listado de los productos que han aparecido en un pedido alguna vez.
+
+sqlite> select p.codigo_producto,  p.nombre from producto as p where exists (select * from detalle_pedido where p.codigo_producto=detalle_pedido.codigo_producto);     
+
+-- ┌─────────────────┬─────────────────────────────────────────────────────────────┐
+-- │ codigo_producto │                           nombre                            │
+-- ├─────────────────┼─────────────────────────────────────────────────────────────┤
+-- │ 11679           │ Sierra de Poda 400MM                                        │
+-- │ 21636           │ Pala                                                        │
+-- │ 22225           │ Rastrillo de Jardín                                         │
+-- │ 30310           │ Azadón                                                      │
+-- │ AR-001          │ Ajedrea                                                     │
+-- │ AR-002          │ Lavándula Dentata                                           │
+-- │ AR-003          │ Mejorana                                                    │
+-- │ AR-004          │ Melissa                                                     │
+-- │ AR-005          │ Mentha Sativa                                               │
+-- │ AR-006          │ Petrosilium Hortense (Peregil)                              │
+-- │ AR-007          │ Salvia Mix                                                  │
+-- │ AR-008          │ Thymus Citriodra (Tomillo limón)                            │
+-- │ AR-009          │ Thymus Vulgaris                                             │
+-- │ AR-010          │ Santolina Chamaecyparys                                     │
+-- │ FR-1            │ Expositor Cítricos Mix                                      │
+-- │ FR-10           │ Limonero 2 años injerto                                     │
+-- │ FR-100          │ Nectarina                                                   │
+-- │ FR-101          │ Nogal                                                       │
+-- │ FR-102          │ Olea-Olivos                                                 │
+-- │ FR-103          │ Olea-Olivos                                                 │
+-- │ FR-105          │ Olea-Olivos                                                 │
+-- │ FR-106          │ Peral                                                       │
+-- │ FR-107          │ Peral                                                       │
+-- │ FR-108          │ Peral                                                       │
+-- │ FR-11           │ Limonero 30/40                                              │
+-- │ FR-12           │ Kunquat                                                     │
+-- │ FR-13           │ Kunquat  EXTRA con FRUTA                                    │
+-- │ FR-15           │ Calamondin Copa                                             │
+-- │ FR-16           │ Calamondin Copa EXTRA Con FRUTA                             │
+-- │ FR-17           │ Rosal bajo 1Âª -En maceta-inicio brotación                  │
+-- │ FR-18           │ ROSAL TREPADOR                                              │
+-- │ FR-2            │ Naranjo -Plantón joven 1 año injerto                        │
+-- │ FR-22           │ Pitimini rojo                                               │
+-- │ FR-23           │ Rosal copa                                                  │
+-- │ FR-29           │ Cerezo Napoleón                                             │
+-- │ FR-3            │ Naranjo 2 años injerto                                      │
+-- │ FR-31           │ Ciruelo Santa Rosa                                          │
+-- │ FR-33           │ Ciruelo Friar                                               │
+-- │ FR-34           │ Ciruelo Reina C. De Ollins                                  │
+-- │ FR-36           │ Granado Mollar de Elche                                     │
+-- │ FR-37           │ Higuera Napolitana                                          │
+-- │ FR-4            │ Naranjo calibre 8/10                                        │
+-- │ FR-40           │ Manzano Starking Delicious                                  │
+-- │ FR-41           │ Manzano Reineta                                             │
+-- │ FR-42           │ Manzano Golden Delicious                                    │
+-- │ FR-43           │ Membrillero Gigante de Wranja                               │
+-- │ FR-45           │ Melocotonero Amarillo de Agosto                             │
+-- │ FR-47           │ Melocotonero Paraguayo                                      │
+-- │ FR-48           │ Nogal Común                                                 │
+-- │ FR-53           │ Peral Blanq. de Aranjuez                                    │
+-- │ FR-54           │ Níspero Tanaca                                              │
+-- │ FR-56           │ Nectarina                                                   │
+-- │ FR-57           │ Kaki Rojo Brillante                                         │
+-- │ FR-58           │ Albaricoquero                                               │
+-- │ FR-6            │ Mandarino 2 años injerto                                    │
+-- │ FR-60           │ Albaricoquero                                               │
+-- │ FR-64           │ Cerezo                                                      │
+-- │ FR-66           │ Cerezo                                                      │
+-- │ FR-67           │ Cerezo                                                      │
+-- │ FR-69           │ Cerezo                                                      │
+-- │ FR-7            │ Mandarino calibre 8/10                                      │
+-- │ FR-71           │ Ciruelo                                                     │
+-- │ FR-72           │ Ciruelo                                                     │
+-- │ FR-75           │ Granado                                                     │
+-- │ FR-77           │ Granado                                                     │
+-- │ FR-78           │ Higuera                                                     │
+-- │ FR-79           │ Higuera                                                     │
+-- │ FR-8            │ Limonero -Plantón joven                                     │
+-- │ FR-80           │ Higuera                                                     │
+-- │ FR-81           │ Higuera                                                     │
+-- │ FR-82           │ Higuera                                                     │
+-- │ FR-84           │ Kaki                                                        │
+-- │ FR-85           │ Kaki                                                        │
+-- │ FR-86           │ Manzano                                                     │
+-- │ FR-87           │ Manzano                                                     │
+-- │ FR-89           │ Manzano                                                     │
+-- │ FR-9            │ Limonero calibre 8/10                                       │
+-- │ FR-90           │ Níspero                                                     │
+-- │ FR-91           │ Níspero                                                     │
+-- │ FR-94           │ Melocotonero                                                │
+-- │ OR-101          │ Expositor Mimosa Semilla Mix                                │
+-- │ OR-102          │ Mimosa Semilla Bayleyana                                    │
+-- │ OR-104          │ Mimosa Semilla Cyanophylla                                  │
+-- │ OR-115          │ Forsytia Intermedia \"Lynwood\"                             │
+-- │ OR-116          │ Hibiscus Syriacus  \"Diana\" -Blanco Puro                   │
+-- │ OR-119          │ Laurus Nobilis Arbusto - Ramificado Bajo                    │
+-- │ OR-120          │ Lonicera Nitida                                             │
+-- │ OR-122          │ Lonicera Pileata                                            │
+-- │ OR-123          │ Philadelphus \"Virginal\"                                   │
+-- │ OR-125          │ Viburnum Tinus \"Eve Price\"                                │
+-- │ OR-127          │ Camelia japonica                                            │
+-- │ OR-128          │ Camelia japonica ejemplar                                   │
+-- │ OR-129          │ Camelia japonica ejemplar                                   │
+-- │ OR-130          │ Callistemom COPA                                            │
+-- │ OR-136          │ Nerium oleander ARBOL Calibre 8/10                          │
+-- │ OR-139          │ Landora Amarillo, Rose Gaujard bicolor blanco-rojo          │
+-- │ OR-140          │ Kordes Perfect bicolor rojo-amarillo, Roundelay rojo fuerte │
+-- │ OR-141          │ Pitimini rojo                                               │
+-- │ OR-146          │ Bougamvillea Sanderiana Tutor                               │
+-- │ OR-147          │ Bougamvillea Sanderiana Tutor                               │
+-- │ OR-150          │ Bougamvillea roja, naranja                                  │
+-- │ OR-152          │ Expositor Árboles clima continental                         │
+-- │ OR-155          │ Acer Negundo                                                │
+-- │ OR-156          │ Acer platanoides                                            │
+-- │ OR-157          │ Acer Pseudoplatanus                                         │
+-- │ OR-159          │ Brachychiton Discolor                                       │
+-- │ OR-160          │ Brachychiton Rupestris                                      │
+-- │ OR-165          │ Erytrina Kafra                                              │
+-- │ OR-168          │ Eucalyptus Ficifolia                                        │
+-- │ OR-172          │ Lagunaria patersonii  calibre 8/10                          │
+-- │ OR-174          │ Morus Alba  calibre 8/10                                    │
+-- │ OR-176          │ Prunus pisardii                                             │
+-- │ OR-177          │ Robinia Pseudoacacia Casque Rouge                           │
+-- │ OR-179          │ Sesbania Punicea                                            │
+-- │ OR-181          │ Tamarix  Ramosissima Pink Cascade                           │
+-- │ OR-186          │ Sasa palmata                                                │
+-- │ OR-188          │ Sasa palmata                                                │
+-- │ OR-193          │ Phylostachys biseti                                         │
+-- │ OR-196          │ Cedrus Deodara                                              │
+-- │ OR-200          │ Juniperus horizontalis Wiltonii                             │
+-- │ OR-203          │ Pinus Canariensis                                           │
+-- │ OR-204          │ Pinus Halepensis                                            │
+-- │ OR-205          │ Pinus Pinea -Pino Piñonero                                  │
+-- │ OR-206          │ Thuja Esmeralda                                             │
+-- │ OR-207          │ Tuja Occidentalis Woodwardii                                │
+-- │ OR-208          │ Tuja orientalis \"Aurea nana\"                              │
+-- │ OR-209          │ Archontophoenix Cunninghamiana                              │
+-- │ OR-210          │ Beucarnea Recurvata                                         │
+-- │ OR-211          │ Beucarnea Recurvata                                         │
+-- │ OR-213          │ Bismarckia Nobilis                                          │
+-- │ OR-214          │ Brahea Armata                                               │
+-- │ OR-217          │ Brahea Edulis                                               │
+-- │ OR-218          │ Butia Capitata                                              │
+-- │ OR-222          │ Butia Capitata                                              │
+-- │ OR-225          │ Chamaerops Humilis                                          │
+-- │ OR-226          │ Chamaerops Humilis                                          │
+-- │ OR-227          │ Chamaerops Humilis                                          │
+-- │ OR-234          │ Dracaena Drago                                              │
+-- │ OR-236          │ Jubaea Chilensis                                            │
+-- │ OR-237          │ Livistonia Australis                                        │
+-- │ OR-240          │ Phoenix Canariensis                                         │
+-- │ OR-241          │ Phoenix Canariensis                                         │
+-- │ OR-243          │ Rhaphis Humilis                                             │
+-- │ OR-247          │ Trachycarpus Fortunei                                       │
+-- │ OR-249          │ Washingtonia Robusta                                        │
+-- │ OR-250          │ Yucca Jewel                                                 │
+-- │ OR-99           │ Mimosa DEALBATA Gaulois Astier                              │
+-- └─────────────────┴─────────────────────────────────────────────────────────────┘
 
 -- ## Subconsultas correlacionadas
 
 -- 77. Devuelve el listado de clientes indicando el nombre del cliente y cuántos pedidos ha realizado. Tenga en cuenta que pueden existir clientes que no han realizado ningún pedido.
+
+sqlite> select distinct c.nombre_cliente, (select count(codigo_pedido) from pedido where pedido.codigo_cliente=c.codigo_cliente) from cliente as c, pedido as p where c.codigo_cliente=p.codigo_cliente  
+   ...> ;
+
+-- ┌────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+-- │         nombre_cliente         │ (select count(codigo_pedido) from pedido where pedido.codigo │
+-- ├────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ Tendo Garden                   │ 5                                                            │
+-- │ GoldFish Garden                │ 11                                                           │
+-- │ Gardening Associates           │ 9                                                            │
+-- │ Beragua                        │ 5                                                            │
+-- │ Naturagua                      │ 5                                                            │
+-- │ Dardena S.A.                   │ 5                                                            │
+-- │ Camunas Jardines S.L.          │ 5                                                            │
+-- │ Gerudo Valley                  │ 5                                                            │
+-- │ Golf S.A.                      │ 5                                                            │
+-- │ Sotogrande                     │ 5                                                            │
+-- │ Jardines y Mansiones Cactus SL │ 5                                                            │
+-- │ Jardin de Flores               │ 5                                                            │
+-- │ Agrojardin                     │ 5                                                            │
+-- │ Tutifruti S.A                  │ 5                                                            │
+-- │ Jardinerías Matías SL          │ 5                                                            │
+-- │ Flores Marivi                  │ 10                                                           │
+-- │ Jardineria Sara                │ 10                                                           │
+-- │ El Jardin Viviente S.L         │ 5                                                            │
+-- │ Flores S.L.                    │ 5                                                            │
+-- └────────────────────────────────┴──────────────────────────────────────────────────────────────┘
+
 -- 78. Devuelve un listado con los nombres de los clientes y el total pagado por cada uno de ellos. Tenga en cuenta que pueden existir clientes que no han realizado ningún pago.
+
+sqlite> select c.nombre_cliente, coalesce((select sum(total) from pago where pago.codigo_cliente=c.codigo_cliente),0) from cliente as c;
+
+-- ┌────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+-- │         nombre_cliente         │ coalesce((select sum(total) from pago where pago.codigo_clie │
+-- ├────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+-- │ GoldFish Garden                │ 4000.0                                                       │
+-- │ Gardening Associates           │ 10926.0                                                      │
+-- │ Gerudo Valley                  │ 81849.0                                                      │
+-- │ Tendo Garden                   │ 23794.0                                                      │
+-- │ Lasas S.A.                     │ 0                                                            │
+-- │ Beragua                        │ 2390.0                                                       │
+-- │ Club Golf Puerta del hierro    │ 0                                                            │
+-- │ Naturagua                      │ 929.0                                                        │
+-- │ DaraDistribuciones             │ 0                                                            │
+-- │ Madrileña de riegos            │ 0                                                            │
+-- │ Lasas S.A.                     │ 0                                                            │
+-- │ Camunas Jardines S.L.          │ 2246.0                                                       │
+-- │ Dardena S.A.                   │ 4160.0                                                       │
+-- │ Jardin de Flores               │ 12081.0                                                      │
+-- │ Flores Marivi                  │ 4399.0                                                       │
+-- │ Flowers, S.A                   │ 0                                                            │
+-- │ Naturajardin                   │ 0                                                            │
+-- │ Golf S.A.                      │ 232.0                                                        │
+-- │ Americh Golf Management SL     │ 0                                                            │
+-- │ Aloha                          │ 0                                                            │
+-- │ El Prat                        │ 0                                                            │
+-- │ Sotogrande                     │ 272.0                                                        │
+-- │ Vivero Humanes                 │ 0                                                            │
+-- │ Fuenla City                    │ 0                                                            │
+-- │ Jardines y Mansiones Cactus SL │ 18846.0                                                      │
+-- │ Jardinerías Matías SL          │ 10972.0                                                      │
+-- │ Agrojardin                     │ 8489.0                                                       │
+-- │ Top Campo                      │ 0                                                            │
+-- │ Jardineria Sara                │ 7863.0                                                       │
+-- │ Campohermoso                   │ 0                                                            │
+-- │ france telecom                 │ 0                                                            │
+-- │ Musée du Louvre                │ 0                                                            │
+-- │ Tutifruti S.A                  │ 3321.0                                                       │
+-- │ Flores S.L.                    │ 0                                                            │
+-- │ The Magic Garden               │ 0                                                            │
+-- │ El Jardin Viviente S.L         │ 1171.0                                                       │
+-- └────────────────────────────────┴──────────────────────────────────────────────────────────────┘
+
 -- 79. Devuelve el nombre de los clientes que hayan hecho pedidos en 2008 ordenados alfabéticamente de menor a mayor.
--- 80. Devuelve el nombre del cliente, el nombre y primer apellido de su representante de ventas y el número de teléfono de la oficina del representante de ventas, de aquellos clientes que no hayan realizado ningún pago.
+
+sqlite> select codigo_cliente, c.nombre_cliente from cliente as c where c.codigo_cliente=(select codigo_cliente from pedido where c.codigo_cliente=pedido.codigo_cliente and fecha_pedido regexp "^2008");
+
+-- ┌────────────────┬────────────────────────────────┐
+-- │ codigo_cliente │         nombre_cliente         │
+-- ├────────────────┼────────────────────────────────┤
+-- │ 1              │ GoldFish Garden                │
+-- │ 4              │ Gerudo Valley                  │
+-- │ 5              │ Tendo Garden                   │
+-- │ 13             │ Camunas Jardines S.L.          │
+-- │ 14             │ Dardena S.A.                   │
+-- │ 15             │ Jardin de Flores               │
+-- │ 16             │ Flores Marivi                  │
+-- │ 26             │ Jardines y Mansiones Cactus SL │
+-- │ 35             │ Tutifruti S.A                  │
+-- │ 36             │ Flores S.L.                    │
+-- │ 38             │ El Jardin Viviente S.L         │
+-- └────────────────┴────────────────────────────────┘
+
+-- 80. Devuelve el nombre del cliente, el nombre y primer apellido de su representante de ventas y el número de teléfono de la oficina del representante de ventas,
+-- de aquellos clientes que no hayan realizado ningún pago.
+
+sqlite> select c.codigo_cliente, c.nombre_cliente, e.nombre, e.apellido1, o.telefono from cliente as c, empleado as e, oficina as o where c.codigo_empleado_rep_ventas=e.codigo_empleado and o.codigo_oficina=e.codigo_oficina and c.codigo_cliente not in (select codigo_cliente from pago);
+-- ┌────────────────┬─────────────────────────────┬─────────────┬────────────┬─────────────────┐
+-- │ codigo_cliente │       nombre_cliente        │   nombre    │ apellido1  │    telefono     │
+-- ├────────────────┼─────────────────────────────┼─────────────┼────────────┼─────────────────┤
+-- │ 6              │ Lasas S.A.                  │ Mariano     │ López      │ +34 91 7514487  │
+-- │ 8              │ Club Golf Puerta del hierro │ Emmanuel    │ Magaña     │ +34 93 3561182  │
+-- │ 10             │ DaraDistribuciones          │ Emmanuel    │ Magaña     │ +34 93 3561182  │
+-- │ 11             │ Madrileña de riegos         │ Emmanuel    │ Magaña     │ +34 93 3561182  │
+-- │ 12             │ Lasas S.A.                  │ Mariano     │ López      │ +34 91 7514487  │
+-- │ 17             │ Flowers, S.A                │ Felipe      │ Rosas      │ +34 925 867231  │
+-- │ 18             │ Naturajardin                │ Julian      │ Bellinelli │ +61 2 9264 2451 │
+-- │ 20             │ Americh Golf Management SL  │ José Manuel │ Martinez   │ +34 93 3561182  │
+-- │ 21             │ Aloha                       │ José Manuel │ Martinez   │ +34 93 3561182  │
+-- │ 22             │ El Prat                     │ José Manuel │ Martinez   │ +34 93 3561182  │
+-- │ 24             │ Vivero Humanes              │ Julian      │ Bellinelli │ +61 2 9264 2451 │
+-- │ 25             │ Fuenla City                 │ Felipe      │ Rosas      │ +34 925 867231  │
+-- │ 29             │ Top Campo                   │ Felipe      │ Rosas      │ +34 925 867231  │
+-- │ 31             │ Campohermoso                │ Julian      │ Bellinelli │ +61 2 9264 2451 │
+-- │ 32             │ france telecom              │ Lionel      │ Narvaez    │ +33 14 723 4404 │
+-- │ 33             │ Musée du Louvre             │ Lionel      │ Narvaez    │ +33 14 723 4404 │
+-- │ 36             │ Flores S.L.                 │ Michael     │ Bolton     │ +1 650 219 4782 │
+-- │ 37             │ The Magic Garden            │ Michael     │ Bolton     │ +1 650 219 4782 │
+-- └────────────────┴─────────────────────────────┴─────────────┴────────────┴─────────────────┘
 -- 81. Devuelve el listado de clientes donde aparezca el nombre del cliente, el nombre y primer apellido de su representante de ventas y la ciudad donde está su oficina.
+
+sqlite> select c.codigo_cliente, c.nombre_cliente, e.nombre, e.apellido1, o.ciudad from cliente as c, empleado as e, oficina as o where c.codigo_empleado_rep_ventas=e.codigo_empleado and o.codigo_oficina=e.codigo_oficina;
+
+-- ┌────────────────┬────────────────────────────────┬─────────────────┬────────────┬──────────────────────┐
+-- │ codigo_cliente │         nombre_cliente         │     nombre      │ apellido1  │        ciudad        │
+-- ├────────────────┼────────────────────────────────┼─────────────────┼────────────┼──────────────────────┤
+-- │ 1              │ GoldFish Garden                │ Walter Santiago │ Sanchez    │ San Francisco        │
+-- │ 3              │ Gardening Associates           │ Walter Santiago │ Sanchez    │ San Francisco        │
+-- │ 4              │ Gerudo Valley                  │ Lorena          │ Paxton     │ Boston               │
+-- │ 5              │ Tendo Garden                   │ Lorena          │ Paxton     │ Boston               │
+-- │ 6              │ Lasas S.A.                     │ Mariano         │ López      │ Madrid               │
+-- │ 7              │ Beragua                        │ Emmanuel        │ Magaña     │ Barcelona            │
+-- │ 8              │ Club Golf Puerta del hierro    │ Emmanuel        │ Magaña     │ Barcelona            │
+-- │ 9              │ Naturagua                      │ Emmanuel        │ Magaña     │ Barcelona            │
+-- │ 10             │ DaraDistribuciones             │ Emmanuel        │ Magaña     │ Barcelona            │
+-- │ 11             │ Madrileña de riegos            │ Emmanuel        │ Magaña     │ Barcelona            │
+-- │ 12             │ Lasas S.A.                     │ Mariano         │ López      │ Madrid               │
+-- │ 13             │ Camunas Jardines S.L.          │ Mariano         │ López      │ Madrid               │
+-- │ 14             │ Dardena S.A.                   │ Mariano         │ López      │ Madrid               │
+-- │ 15             │ Jardin de Flores               │ Julian          │ Bellinelli │ Sydney               │
+-- │ 16             │ Flores Marivi                  │ Felipe          │ Rosas      │ Talavera de la Reina │
+-- │ 17             │ Flowers, S.A                   │ Felipe          │ Rosas      │ Talavera de la Reina │
+-- │ 18             │ Naturajardin                   │ Julian          │ Bellinelli │ Sydney               │
+-- │ 19             │ Golf S.A.                      │ José Manuel     │ Martinez   │ Barcelona            │
+-- │ 20             │ Americh Golf Management SL     │ José Manuel     │ Martinez   │ Barcelona            │
+-- │ 21             │ Aloha                          │ José Manuel     │ Martinez   │ Barcelona            │
+-- │ 22             │ El Prat                        │ José Manuel     │ Martinez   │ Barcelona            │
+-- │ 23             │ Sotogrande                     │ José Manuel     │ Martinez   │ Barcelona            │
+-- │ 24             │ Vivero Humanes                 │ Julian          │ Bellinelli │ Sydney               │
+-- │ 25             │ Fuenla City                    │ Felipe          │ Rosas      │ Talavera de la Reina │
+-- │ 26             │ Jardines y Mansiones Cactus SL │ Lucio           │ Campoamor  │ Madrid               │
+-- │ 27             │ Jardinerías Matías SL          │ Lucio           │ Campoamor  │ Madrid               │
+-- │ 28             │ Agrojardin                     │ Julian          │ Bellinelli │ Sydney               │
+-- │ 29             │ Top Campo                      │ Felipe          │ Rosas      │ Talavera de la Reina │
+-- │ 30             │ Jardineria Sara                │ Felipe          │ Rosas      │ Talavera de la Reina │
+-- │ 31             │ Campohermoso                   │ Julian          │ Bellinelli │ Sydney               │
+-- │ 32             │ france telecom                 │ Lionel          │ Narvaez    │ Paris                │
+-- │ 33             │ Musée du Louvre                │ Lionel          │ Narvaez    │ Paris                │
+-- │ 35             │ Tutifruti S.A                  │ Mariko          │ Kishi      │ Sydney               │
+-- │ 36             │ Flores S.L.                    │ Michael         │ Bolton     │ San Francisco        │
+-- │ 37             │ The Magic Garden               │ Michael         │ Bolton     │ San Francisco        │
+-- │ 38             │ El Jardin Viviente S.L         │ Mariko          │ Kishi      │ Sydney               │
+-- └────────────────┴────────────────────────────────┴─────────────────┴────────────┴──────────────────────┘
+
 -- 82. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente.
+
+sqlite> select e.nombre,e.apellido1,e.apellido2,e.puesto,o.telefono from empleado as e, oficina as o where e.codigo_oficina=o.codigo_oficina and e.codigo_empleado not in (select codigo_empleado_rep_ventas from cliente);      
+
+-- ┌─────────────┬────────────┬───────────┬───────────────────────┬─────────────────┐
+-- │   nombre    │ apellido1  │ apellido2 │        puesto         │    telefono     │
+-- ├─────────────┼────────────┼───────────┼───────────────────────┼─────────────────┤
+-- │ Marcos      │ Magaña     │ Perez     │ Director General      │ +34 925 867231  │
+-- │ Ruben       │ López      │ Martinez  │ Subdirector Marketing │ +34 925 867231  │
+-- │ Alberto     │ Soria      │ Carrasco  │ Subdirector Ventas    │ +34 925 867231  │
+-- │ Maria       │ Solís      │ Jerez     │ Secretaria            │ +34 925 867231  │
+-- │ Juan Carlos │ Ortiz      │ Serrano   │ Representante Ventas  │ +34 925 867231  │
+-- │ Carlos      │ Soria      │ Jimenez   │ Director Oficina      │ +34 91 7514487  │
+-- │ Hilario     │ Rodriguez  │ Huertas   │ Representante Ventas  │ +34 91 7514487  │
+-- │ David       │ Palma      │ Aceituno  │ Representante Ventas  │ +34 93 3561182  │
+-- │ Oscar       │ Palma      │ Aceituno  │ Representante Ventas  │ +34 93 3561182  │
+-- │ Francois    │ Fignon     │           │ Director Oficina      │ +33 14 723 4404 │
+-- │ Laurent     │ Serra      │           │ Representante Ventas  │ +33 14 723 4404 │
+-- │ Hilary      │ Washington │           │ Director Oficina      │ +1 215 837 0825 │
+-- │ Marcus      │ Paxton     │           │ Representante Ventas  │ +1 215 837 0825 │
+-- │ Nei         │ Nishikori  │           │ Director Oficina      │ +81 33 224 5000 │
+-- │ Narumi      │ Riko       │           │ Representante Ventas  │ +81 33 224 5000 │
+-- │ Takuma      │ Nomura     │           │ Representante Ventas  │ +81 33 224 5000 │
+-- │ Amy         │ Johnson    │           │ Director Oficina      │ +44 20 78772041 │
+-- │ Larry       │ Westfalls  │           │ Representante Ventas  │ +44 20 78772041 │
+-- │ John        │ Walton     │           │ Representante Ventas  │ +44 20 78772041 │
+-- │ Kevin       │ Fallmer    │           │ Director Oficina      │ +61 2 9264 2451 │
+-- └─────────────┴────────────┴───────────┴───────────────────────┴─────────────────┘
+
 -- 83. Devuelve un listado indicando todas las ciudades donde hay oficinas y el número de empleados que tiene.
+
+sqlite> select o.ciudad, (select count(codigo_empleado) from empleado where empleado.codigo_oficina=o.codigo_oficina) as cantidad from oficina as o;                                                       
+
+-- ┌──────────────────────┬──────────┐
+-- │        ciudad        │ cantidad │
+-- ├──────────────────────┼──────────┤
+-- │ Barcelona            │ 4        │
+-- │ Boston               │ 3        │
+-- │ Londres              │ 3        │
+-- │ Madrid               │ 4        │
+-- │ Paris                │ 3        │
+-- │ San Francisco        │ 2        │
+-- │ Sydney               │ 3        │
+-- │ Talavera de la Reina │ 6        │
+-- │ Tokyo                │ 3        │
+-- └──────────────────────┴──────────┘

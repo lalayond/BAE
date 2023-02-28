@@ -206,27 +206,28 @@ sqlite> select codigo_pedido,codigo_cliente,fecha_esperada,fecha_entrega from pe
 -- 11. Devuelve un listado de todos los pedidos que fueron rechazados en 2009.
 
 sqlite> select * from pedido where estado="Rechazado" and fecha_esperada regexp '2009';
-┌───────────────┬──────────────┬────────────────┬───────────────┬───────────┬──────────────────────────────────────────────────────────────────────────┬────────────────┐
-│ codigo_pedido │ fecha_pedido │ fecha_esperada │ fecha_entrega │  estado   │                               comentarios                                │ codigo_cliente │
-├───────────────┼──────────────┼────────────────┼───────────────┼───────────┼──────────────────────────────────────────────────────────────────────────┼────────────────┤
-│ 14            │ 2009-01-02   │ 2009-01-02     │               │ Rechazado │ mal pago                                                                 │ 7              │
-│ 21            │ 2009-01-09   │ 2009-01-09     │ 2009-01-09    │ Rechazado │ mal pago                                                                 │ 9              │
-│ 23            │ 2008-12-30   │ 2009-01-10     │               │ Rechazado │ El pedido fue anulado por el cliente                                     │ 5              │
-│ 25            │ 2009-02-02   │ 2009-02-08     │               │ Rechazado │ El cliente carece de saldo en la cuenta asociada                         │ 1              │
-│ 26            │ 2009-02-06   │ 2009-02-12     │               │ Rechazado │ El cliente anula la operacion para adquirir mas producto                 │ 3              │
-│ 35            │ 2008-03-10   │ 2009-03-20     │               │ Rechazado │ Limite de credito superado                                               │ 4              │
-│ 40            │ 2009-03-09   │ 2009-03-10     │ 2009-03-13    │ Rechazado │                                                                          │ 19             │
-│ 46            │ 2009-04-03   │ 2009-03-04     │ 2009-03-05    │ Rechazado │                                                                          │ 23             │
-│ 56            │ 2008-12-19   │ 2009-01-20     │               │ Rechazado │ El cliente a anulado el pedido el dia 2009-01-10                         │ 13             │
-│ 65            │ 2009-02-02   │ 2009-02-08     │               │ Rechazado │ El cliente carece de saldo en la cuenta asociada                         │ 1              │
-│ 66            │ 2009-02-06   │ 2009-02-12     │               │ Rechazado │ El cliente anula la operacion para adquirir mas producto                 │ 3              │
-│ 74            │ 2009-01-14   │ 2009-01-22     │               │ Rechazado │ El pedido no llego el dia que queria el cliente por fallo del transporte │ 15             │
-│ 81            │ 2009-01-18   │ 2009-01-24     │               │ Rechazado │ Los producto estaban en mal estado                                       │ 28             │
-│ 101           │ 2009-03-07   │ 2009-03-27     │               │ Rechazado │ El pedido fue rechazado por el cliente                                   │ 16             │
-│ 105           │ 2009-02-14   │ 2009-02-20     │               │ Rechazado │ el producto ha sido rechazado por la pesima calidad                      │ 30             │
-│ 120           │ 2009-03-07   │ 2009-03-27     │               │ Rechazado │ El pedido fue rechazado por el cliente                                   │ 16             │
-│ 125           │ 2009-02-14   │ 2009-02-20     │               │ Rechazado │ el producto ha sido rechazado por la pesima calidad                      │ 30             │
-└───────────────┴──────────────┴────────────────┴───────────────┴───────────┴──────────────────────────────────────────────────────────────────────────┴────────────────┘
+
+-- ┌───────────────┬──────────────┬────────────────┬───────────────┬───────────┬──────────────────────────────────────────────────────────────────────────┬────────────────┐
+-- │ codigo_pedido │ fecha_pedido │ fecha_esperada │ fecha_entrega │  estado   │                               comentarios                                │ codigo_cliente │
+-- ├───────────────┼──────────────┼────────────────┼───────────────┼───────────┼──────────────────────────────────────────────────────────────────────────┼────────────────┤
+-- │ 14            │ 2009-01-02   │ 2009-01-02     │               │ Rechazado │ mal pago                                                                 │ 7              │
+-- │ 21            │ 2009-01-09   │ 2009-01-09     │ 2009-01-09    │ Rechazado │ mal pago                                                                 │ 9              │
+-- │ 23            │ 2008-12-30   │ 2009-01-10     │               │ Rechazado │ El pedido fue anulado por el cliente                                     │ 5              │
+-- │ 25            │ 2009-02-02   │ 2009-02-08     │               │ Rechazado │ El cliente carece de saldo en la cuenta asociada                         │ 1              │
+-- │ 26            │ 2009-02-06   │ 2009-02-12     │               │ Rechazado │ El cliente anula la operacion para adquirir mas producto                 │ 3              │
+-- │ 35            │ 2008-03-10   │ 2009-03-20     │               │ Rechazado │ Limite de credito superado                                               │ 4              │
+-- │ 40            │ 2009-03-09   │ 2009-03-10     │ 2009-03-13    │ Rechazado │                                                                          │ 19             │
+-- │ 46            │ 2009-04-03   │ 2009-03-04     │ 2009-03-05    │ Rechazado │                                                                          │ 23             │
+-- │ 56            │ 2008-12-19   │ 2009-01-20     │               │ Rechazado │ El cliente a anulado el pedido el dia 2009-01-10                         │ 13             │
+-- │ 65            │ 2009-02-02   │ 2009-02-08     │               │ Rechazado │ El cliente carece de saldo en la cuenta asociada                         │ 1              │
+-- │ 66            │ 2009-02-06   │ 2009-02-12     │               │ Rechazado │ El cliente anula la operacion para adquirir mas producto                 │ 3              │
+-- │ 74            │ 2009-01-14   │ 2009-01-22     │               │ Rechazado │ El pedido no llego el dia que queria el cliente por fallo del transporte │ 15             │
+-- │ 81            │ 2009-01-18   │ 2009-01-24     │               │ Rechazado │ Los producto estaban en mal estado                                       │ 28             │
+-- │ 101           │ 2009-03-07   │ 2009-03-27     │               │ Rechazado │ El pedido fue rechazado por el cliente                                   │ 16             │
+-- │ 105           │ 2009-02-14   │ 2009-02-20     │               │ Rechazado │ el producto ha sido rechazado por la pesima calidad                      │ 30             │
+-- │ 120           │ 2009-03-07   │ 2009-03-27     │               │ Rechazado │ El pedido fue rechazado por el cliente                                   │ 16             │
+-- │ 125           │ 2009-02-14   │ 2009-02-20     │               │ Rechazado │ el producto ha sido rechazado por la pesima calidad                      │ 30             │
+-- └───────────────┴──────────────┴────────────────┴───────────────┴───────────┴──────────────────────────────────────────────────────────────────────────┴────────────────┘
 
 -- 12. Devuelve un listado de todos los pedidos que han sido entregados en el mes de enero de cualquier año.
 
@@ -2049,33 +2050,773 @@ sqlite> select c.nombre_cliente, max(pa.fecha_pago), min(pa.fecha_pago) from cli
 
 -- 52. Calcula la suma de la cantidad total de todos los productos que aparecen en cada uno de los pedidos.
 
+sqlite> select p.codigo_pedido, sum(d.precio_unidad) from pedido as p join detalle_pedido as d on p.codigo_pedido=d.codigo_pedido;
+┌───────────────┬──────────────────────┐
+│ codigo_pedido │ sum(d.precio_unidad) │
+├───────────────┼──────────────────────┤
+│ 1             │ 10482.0              │
+└───────────────┴──────────────────────┘
+sqlite> select p.codigo_pedido, sum(d.precio_unidad) from pedido as p join detalle_pedido as d on p.codigo_pedido=d.codigo_pedido group by p.codigo_pedido;
 
+-- ┌───────────────┬──────────────────────┐
+-- │ codigo_pedido │ sum(d.precio_unidad) │
+-- ├───────────────┼──────────────────────┤
+-- │ 1             │ 111.0                │
+-- │ 2             │ 578.0                │
+-- │ 3             │ 375.0                │
+-- │ 4             │ 115.0                │
+-- │ 8             │ 143.0                │
+-- │ 9             │ 101.0                │
+-- │ 10            │ 209.0                │
+-- │ 11            │ 9.0                  │
+-- │ 12            │ 1.0                  │
+-- │ 13            │ 128.0                │
+-- │ 14            │ 68.0                 │
+-- │ 15            │ 39.0                 │
+-- │ 16            │ 21.0                 │
+-- │ 17            │ 75.0                 │
+-- │ 18            │ 22.0                 │
+-- │ 19            │ 69.0                 │
+-- │ 20            │ 26.0                 │
+-- │ 21            │ 26.0                 │
+-- │ 22            │ 6.0                  │
+-- │ 23            │ 98.0                 │
+-- │ 24            │ 49.0                 │
+-- │ 25            │ 129.0                │
+-- │ 26            │ 75.0                 │
+-- │ 27            │ 18.0                 │
+-- │ 28            │ 827.0                │
+-- │ 29            │ 249.0                │
+-- │ 30            │ 133.0                │
+-- │ 31            │ 51.0                 │
+-- │ 32            │ 164.0                │
+-- │ 33            │ 482.0                │
+-- │ 34            │ 72.0                 │
+-- │ 35            │ 52.0                 │
+-- │ 36            │ 51.0                 │
+-- │ 37            │ 88.0                 │
+-- │ 38            │ 28.0                 │
+-- │ 39            │ 24.0                 │
+-- │ 40            │ 2.0                  │
+-- │ 41            │ 2.0                  │
+-- │ 42            │ 2.0                  │
+-- │ 43            │ 1.0                  │
+-- │ 44            │ 1.0                  │
+-- │ 45            │ 2.0                  │
+-- │ 46            │ 14.0                 │
+-- │ 47            │ 24.0                 │
+-- │ 48            │ 175.0                │
+-- │ 49            │ 25.0                 │
+-- │ 50            │ 112.0                │
+-- │ 51            │ 108.0                │
+-- │ 52            │ 70.0                 │
+-- │ 53            │ 95.0                 │
+-- │ 54            │ 72.0                 │
+-- │ 55            │ 863.0                │
+-- │ 56            │ 163.0                │
+-- │ 57            │ 162.0                │
+-- │ 58            │ 52.0                 │
+-- │ 59            │ 70.0                 │
+-- │ 60            │ 70.0                 │
+-- │ 61            │ 70.0                 │
+-- │ 62            │ 70.0                 │
+-- │ 63            │ 70.0                 │
+-- │ 64            │ 70.0                 │
+-- │ 65            │ 70.0                 │
+-- │ 66            │ 70.0                 │
+-- │ 67            │ 70.0                 │
+-- │ 68            │ 70.0                 │
+-- │ 74            │ 142.0                │
+-- │ 75            │ 33.0                 │
+-- │ 76            │ 64.0                 │
+-- │ 77            │ 24.0                 │
+-- │ 78            │ 92.0                 │
+-- │ 79            │ 6.0                  │
+-- │ 80            │ 127.0                │
+-- │ 81            │ 4.0                  │
+-- │ 82            │ 64.0                 │
+-- │ 83            │ 4.0                  │
+-- │ 89            │ 128.0                │
+-- │ 90            │ 3.0                  │
+-- │ 91            │ 42.0                 │
+-- │ 92            │ 144.0                │
+-- │ 93            │ 52.0                 │
+-- │ 94            │ 143.0                │
+-- │ 95            │ 109.0                │
+-- │ 96            │ 107.0                │
+-- │ 97            │ 27.0                 │
+-- │ 98            │ 124.0                │
+-- │ 99            │ 74.0                 │
+-- │ 100           │ 31.0                 │
+-- │ 101           │ 2.0                  │
+-- │ 102           │ 24.0                 │
+-- │ 103           │ 12.0                 │
+-- │ 104           │ 80.0                 │
+-- │ 105           │ 70.0                 │
+-- │ 106           │ 19.0                 │
+-- │ 107           │ 112.0                │
+-- │ 108           │ 12.0                 │
+-- │ 109           │ 59.0                 │
+-- │ 110           │ 53.0                 │
+-- │ 111           │ 70.0                 │
+-- │ 112           │ 70.0                 │
+-- │ 113           │ 70.0                 │
+-- │ 114           │ 70.0                 │
+-- │ 115           │ 70.0                 │
+-- │ 116           │ 28.0                 │
+-- │ 117           │ 57.0                 │
+-- │ 118           │ 70.0                 │
+-- │ 119           │ 70.0                 │
+-- │ 120           │ 70.0                 │
+-- │ 121           │ 70.0                 │
+-- │ 122           │ 70.0                 │
+-- │ 123           │ 70.0                 │
+-- │ 124           │ 70.0                 │
+-- │ 125           │ 70.0                 │
+-- │ 126           │ 70.0                 │
+-- │ 127           │ 70.0                 │
+-- │ 128           │ 3.0                  │
+-- └───────────────┴──────────────────────┘
 
 -- 53. Devuelve un listado de los 20 productos más vendidos y el número total de unidades que se han vendido de cada uno. El listado deberá estar ordenado por el número total de unidades vendidas.
--- 54. La facturación que ha tenido la empresa en toda la historia, indicando la base imponible, el IVA y el total facturado. La base imponible se calcula sumando el coste del producto por el número de unidades vendidas de la tabla detalle_pedido. El IVA es el 21 % de la base imponible, y el total la suma de los dos campos anteriores.
+
+sqlite> select codigo_producto, sum(cantidad) as cantidad from detalle_pedido group by codigo_producto order by cantidad desc limit 20;
+
+-- ┌─────────────────┬──────────┐
+-- │ codigo_producto │ cantidad │
+-- ├─────────────────┼──────────┤
+-- │ AR-009          │ 961      │
+-- │ AR-008          │ 455      │
+-- │ FR-17           │ 423      │
+-- │ AR-006          │ 291      │
+-- │ FR-67           │ 285      │
+-- │ OR-247          │ 279      │
+-- │ OR-157          │ 262      │
+-- │ OR-227          │ 236      │
+-- │ OR-208          │ 221      │
+-- │ 30310           │ 220      │
+-- │ OR-214          │ 212      │
+-- │ FR-57           │ 203      │
+-- │ OR-177          │ 150      │
+-- │ AR-001          │ 135      │
+-- │ FR-11           │ 131      │
+-- │ AR-002          │ 128      │
+-- │ OR-136          │ 127      │
+-- │ FR-48           │ 120      │
+-- │ FR-29           │ 120      │
+-- │ FR-100          │ 114      │
+-- └─────────────────┴──────────┘
+
+-- 54. La facturación que ha tenido la empresa en toda la historia, indicando la base imponible, el IVA y el total facturado. 
+-- La base imponible se calcula sumando el coste del producto por el número de unidades vendidas de la tabla detalle_pedido. 
+-- El IVA es el 21 % de la base imponible, y el total la suma de los dos campos anteriores.
+
+sqlite> select sum(p.precio_proveedor + d.cantidad) as base_imponible, sum(21* (p.precio_proveedor + d.cantidad)/100) as IVA, sum((21*(p.precio_proveedor + d.cantidad)/100) + (p.precio_proveedor + d.cantidad)) as total from producto as p join detalle_pedido as d on p.codigo_producto=d.codigo_producto;
+
+-- ┌────────────────┬─────────┬──────────┐
+-- │ base_imponible │   IVA   │  total   │
+-- ├────────────────┼─────────┼──────────┤
+-- │ 17661.0        │ 3708.81 │ 21369.81 │
+-- └────────────────┴─────────┴──────────┘
+
 -- 55. La misma información que en la pregunta anterior, pero agrupada por código de producto.
+
+sqlite> select p.codigo_producto, (p.precio_proveedor + d.cantidad) as base_imponible, (21* (p.precio_proveedor + d.cantidad)/100) as IVA, ((21*(p.precio_proveedor + d.cantidad)/100) + (p.precio_proveedor + d.cantidad)) as total from producto as p join detalle_pedido as d on p.codigo_producto=d.codigo_producto group by p.codigo_producto;
+
+-- ┌─────────────────┬────────────────┬───────┬────────┐
+-- │ codigo_producto │ base_imponible │  IVA  │ total  │
+-- ├─────────────────┼────────────────┼───────┼────────┤
+-- │ 11679           │ 16.0           │ 3.36  │ 19.36  │
+-- │ 21636           │ 25.0           │ 5.25  │ 30.25  │
+-- │ 22225           │ 16.0           │ 3.36  │ 19.36  │
+-- │ 30310           │ 23.0           │ 4.83  │ 27.83  │
+-- │ AR-001          │ 80.0           │ 16.8  │ 96.8   │
+-- │ AR-002          │ 110.0          │ 23.1  │ 133.1  │
+-- │ AR-003          │ 5.0            │ 1.05  │ 6.05   │
+-- │ AR-004          │ 10.0           │ 2.1   │ 12.1   │
+-- │ AR-005          │ 3.0            │ 0.63  │ 3.63   │
+-- │ AR-006          │ 180.0          │ 37.8  │ 217.8  │
+-- │ AR-007          │ 9.0            │ 1.89  │ 10.89  │
+-- │ AR-008          │ 450.0          │ 94.5  │ 544.5  │
+-- │ AR-009          │ 290.0          │ 60.9  │ 350.9  │
+-- │ AR-010          │ 4.0            │ 0.84  │ 4.84   │
+-- │ FR-1            │ 9.0            │ 1.89  │ 10.89  │
+-- │ FR-10           │ 13.0           │ 2.73  │ 15.73  │
+-- │ FR-100          │ 16.0           │ 3.36  │ 19.36  │
+-- │ FR-101          │ 15.0           │ 3.15  │ 18.15  │
+-- │ FR-102          │ 15.0           │ 3.15  │ 18.15  │
+-- │ FR-103          │ 21.0           │ 4.41  │ 25.41  │
+-- │ FR-105          │ 60.0           │ 12.6  │ 72.6   │
+-- │ FR-106          │ 11.0           │ 2.31  │ 13.31  │
+-- │ FR-107          │ 67.0           │ 14.07 │ 81.07  │
+-- │ FR-108          │ 26.0           │ 5.46  │ 31.46  │
+-- │ FR-11           │ 90.0           │ 18.9  │ 108.9  │
+-- │ FR-12           │ 18.0           │ 3.78  │ 21.78  │
+-- │ FR-13           │ 58.0           │ 12.18 │ 70.18  │
+-- │ FR-15           │ 29.0           │ 6.09  │ 35.09  │
+-- │ FR-16           │ 37.0           │ 7.77  │ 44.77  │
+-- │ FR-17           │ 424.0          │ 89.04 │ 513.04 │
+-- │ FR-18           │ 25.0           │ 5.25  │ 30.25  │
+-- │ FR-2            │ 5.0            │ 1.05  │ 6.05   │
+-- │ FR-22           │ 5.0            │ 1.05  │ 6.05   │
+-- │ FR-23           │ 12.0           │ 2.52  │ 14.52  │
+-- │ FR-29           │ 126.0          │ 26.46 │ 152.46 │
+-- │ FR-3            │ 61.0           │ 12.81 │ 73.81  │
+-- │ FR-31           │ 18.0           │ 3.78  │ 21.78  │
+-- │ FR-33           │ 20.0           │ 4.2   │ 24.2   │
+-- │ FR-34           │ 48.0           │ 10.08 │ 58.08  │
+-- │ FR-36           │ 17.0           │ 3.57  │ 20.57  │
+-- │ FR-37           │ 12.0           │ 2.52  │ 14.52  │
+-- │ FR-4            │ 26.0           │ 5.46  │ 31.46  │
+-- │ FR-40           │ 13.0           │ 2.73  │ 15.73  │
+-- │ FR-41           │ 18.0           │ 3.78  │ 21.78  │
+-- │ FR-42           │ 18.0           │ 3.78  │ 21.78  │
+-- │ FR-43           │ 12.0           │ 2.52  │ 14.52  │
+-- │ FR-45           │ 20.0           │ 4.2   │ 24.2   │
+-- │ FR-47           │ 61.0           │ 12.81 │ 73.81  │
+-- │ FR-48           │ 127.0          │ 26.67 │ 153.67 │
+-- │ FR-53           │ 9.0            │ 1.89  │ 10.89  │
+-- │ FR-54           │ 32.0           │ 6.72  │ 38.72  │
+-- │ FR-56           │ 22.0           │ 4.62  │ 26.62  │
+-- │ FR-57           │ 210.0          │ 44.1  │ 254.1  │
+-- │ FR-58           │ 59.0           │ 12.39 │ 71.39  │
+-- │ FR-6            │ 21.0           │ 4.41  │ 25.41  │
+-- │ FR-60           │ 28.0           │ 5.88  │ 33.88  │
+-- │ FR-64           │ 22.0           │ 4.62  │ 26.62  │
+-- │ FR-66           │ 44.0           │ 9.24  │ 53.24  │
+-- │ FR-67           │ 66.0           │ 13.86 │ 79.86  │
+-- │ FR-69           │ 87.0           │ 18.27 │ 105.27 │
+-- │ FR-7            │ 35.0           │ 7.35  │ 42.35  │
+-- │ FR-71           │ 27.0           │ 5.67  │ 32.67  │
+-- │ FR-72           │ 29.0           │ 6.09  │ 35.09  │
+-- │ FR-75           │ 26.0           │ 5.46  │ 31.46  │
+-- │ FR-77           │ 71.0           │ 14.91 │ 85.91  │
+-- │ FR-78           │ 14.0           │ 2.94  │ 16.94  │
+-- │ FR-79           │ 20.0           │ 4.2   │ 24.2   │
+-- │ FR-8            │ 22.0           │ 4.62  │ 26.62  │
+-- │ FR-80           │ 26.0           │ 5.46  │ 31.46  │
+-- │ FR-81           │ 42.0           │ 8.82  │ 50.82  │
+-- │ FR-82           │ 61.0           │ 12.81 │ 73.81  │
+-- │ FR-84           │ 14.0           │ 2.94  │ 16.94  │
+-- │ FR-85           │ 60.0           │ 12.6  │ 72.6   │
+-- │ FR-86           │ 10.0           │ 2.1   │ 12.1   │
+-- │ FR-87           │ 41.0           │ 8.61  │ 49.61  │
+-- │ FR-89           │ 49.0           │ 10.29 │ 59.29  │
+-- │ FR-9            │ 27.0           │ 5.67  │ 32.67  │
+-- │ FR-90           │ 60.0           │ 12.6  │ 72.6   │
+-- │ FR-91           │ 94.0           │ 19.74 │ 113.74 │
+-- │ FR-94           │ 35.0           │ 7.35  │ 42.35  │
+-- │ OR-101          │ 6.0            │ 1.26  │ 7.26   │
+-- │ OR-102          │ 26.0           │ 5.46  │ 31.46  │
+-- │ OR-104          │ 28.0           │ 5.88  │ 33.88  │
+-- │ OR-115          │ 14.0           │ 2.94  │ 16.94  │
+-- │ OR-116          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-119          │ 14.0           │ 2.94  │ 16.94  │
+-- │ OR-120          │ 9.0            │ 1.89  │ 10.89  │
+-- │ OR-122          │ 36.0           │ 7.56  │ 43.56  │
+-- │ OR-123          │ 15.0           │ 3.15  │ 18.15  │
+-- │ OR-125          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-127          │ 45.0           │ 9.45  │ 54.45  │
+-- │ OR-128          │ 107.0          │ 22.47 │ 129.47 │
+-- │ OR-129          │ 90.0           │ 18.9  │ 108.9  │
+-- │ OR-130          │ 24.0           │ 5.04  │ 29.04  │
+-- │ OR-136          │ 19.0           │ 3.99  │ 22.99  │
+-- │ OR-139          │ 83.0           │ 17.43 │ 100.43 │
+-- │ OR-140          │ 53.0           │ 11.13 │ 64.13  │
+-- │ OR-141          │ 28.0           │ 5.88  │ 33.88  │
+-- │ OR-146          │ 20.0           │ 4.2   │ 24.2   │
+-- │ OR-147          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-150          │ 19.0           │ 3.99  │ 22.99  │
+-- │ OR-152          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-155          │ 8.0            │ 1.68  │ 9.68   │
+-- │ OR-156          │ 25.0           │ 5.25  │ 30.25  │
+-- │ OR-157          │ 46.0           │ 9.66  │ 55.66  │
+-- │ OR-159          │ 16.0           │ 3.36  │ 19.36  │
+-- │ OR-160          │ 18.0           │ 3.78  │ 21.78  │
+-- │ OR-165          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-168          │ 10.0           │ 2.1   │ 12.1   │
+-- │ OR-172          │ 34.0           │ 7.14  │ 41.14  │
+-- │ OR-174          │ 38.0           │ 7.98  │ 45.98  │
+-- │ OR-176          │ 46.0           │ 9.66  │ 55.66  │
+-- │ OR-177          │ 162.0          │ 34.02 │ 196.02 │
+-- │ OR-179          │ 5.0            │ 1.05  │ 6.05   │
+-- │ OR-181          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-186          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-188          │ 24.0           │ 5.04  │ 29.04  │
+-- │ OR-193          │ 21.0           │ 4.41  │ 25.41  │
+-- │ OR-196          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-200          │ 13.0           │ 2.73  │ 15.73  │
+-- │ OR-203          │ 17.0           │ 3.57  │ 20.57  │
+-- │ OR-204          │ 58.0           │ 12.18 │ 70.18  │
+-- │ OR-205          │ 18.0           │ 3.78  │ 21.78  │
+-- │ OR-206          │ 9.0            │ 1.89  │ 10.89  │
+-- │ OR-207          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-208          │ 23.0           │ 4.83  │ 27.83  │
+-- │ OR-209          │ 58.0           │ 12.18 │ 70.18  │
+-- │ OR-210          │ 111.0          │ 23.31 │ 134.31 │
+-- │ OR-211          │ 117.0          │ 24.57 │ 141.57 │
+-- │ OR-213          │ 242.0          │ 50.82 │ 292.82 │
+-- │ OR-214          │ 220.0          │ 46.2  │ 266.2  │
+-- │ OR-217          │ 66.0           │ 13.86 │ 79.86  │
+-- │ OR-218          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-222          │ 90.0           │ 18.9  │ 108.9  │
+-- │ OR-225          │ 80.0           │ 16.8  │ 96.8   │
+-- │ OR-226          │ 45.0           │ 9.45  │ 54.45  │
+-- │ OR-227          │ 118.0          │ 24.78 │ 142.78 │
+-- │ OR-234          │ 56.0           │ 11.76 │ 67.76  │
+-- │ OR-236          │ 84.0           │ 17.64 │ 101.64 │
+-- │ OR-237          │ 65.0           │ 13.65 │ 78.65  │
+-- │ OR-240          │ 5.0            │ 1.05  │ 6.05   │
+-- │ OR-241          │ 30.0           │ 6.3   │ 36.3   │
+-- │ OR-243          │ 53.0           │ 11.13 │ 64.13  │
+-- │ OR-247          │ 374.0          │ 78.54 │ 452.54 │
+-- │ OR-249          │ 34.0           │ 7.14  │ 41.14  │
+-- │ OR-250          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-99           │ 34.0           │ 7.14  │ 41.14  │
+-- └─────────────────┴────────────────┴───────┴────────┘
+
 -- 56. La misma información que en la pregunta anterior, pero agrupada por código de producto filtrada por los códigos que empiecen por OR.
+
+sqlite> select p.codigo_producto, (p.precio_proveedor + d.cantidad) as base_imponible, (21* (p.precio_proveedor + d.cantidad)/100) as IVA, ((21*(p.precio_proveedor + d.cantidad)/100) + (p.precio_proveedor + d.cantidad)) as total from producto as p join detalle_pedido as d on p.codigo_producto=d.codigo_producto where p.codigo_producto regexp "^OR" group by p.codigo_producto;
+
+-- ┌─────────────────┬────────────────┬───────┬────────┐
+-- │ codigo_producto │ base_imponible │  IVA  │ total  │
+-- ├─────────────────┼────────────────┼───────┼────────┤
+-- │ OR-101          │ 6.0            │ 1.26  │ 7.26   │
+-- │ OR-102          │ 26.0           │ 5.46  │ 31.46  │
+-- │ OR-104          │ 28.0           │ 5.88  │ 33.88  │
+-- │ OR-115          │ 14.0           │ 2.94  │ 16.94  │
+-- │ OR-116          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-119          │ 14.0           │ 2.94  │ 16.94  │
+-- │ OR-120          │ 9.0            │ 1.89  │ 10.89  │
+-- │ OR-122          │ 36.0           │ 7.56  │ 43.56  │
+-- │ OR-123          │ 15.0           │ 3.15  │ 18.15  │
+-- │ OR-125          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-127          │ 45.0           │ 9.45  │ 54.45  │
+-- │ OR-128          │ 107.0          │ 22.47 │ 129.47 │
+-- │ OR-129          │ 90.0           │ 18.9  │ 108.9  │
+-- │ OR-130          │ 24.0           │ 5.04  │ 29.04  │
+-- │ OR-136          │ 19.0           │ 3.99  │ 22.99  │
+-- │ OR-139          │ 83.0           │ 17.43 │ 100.43 │
+-- │ OR-140          │ 53.0           │ 11.13 │ 64.13  │
+-- │ OR-141          │ 28.0           │ 5.88  │ 33.88  │
+-- │ OR-146          │ 20.0           │ 4.2   │ 24.2   │
+-- │ OR-147          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-150          │ 19.0           │ 3.99  │ 22.99  │
+-- │ OR-152          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-155          │ 8.0            │ 1.68  │ 9.68   │
+-- │ OR-156          │ 25.0           │ 5.25  │ 30.25  │
+-- │ OR-157          │ 46.0           │ 9.66  │ 55.66  │
+-- │ OR-159          │ 16.0           │ 3.36  │ 19.36  │
+-- │ OR-160          │ 18.0           │ 3.78  │ 21.78  │
+-- │ OR-165          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-168          │ 10.0           │ 2.1   │ 12.1   │
+-- │ OR-172          │ 34.0           │ 7.14  │ 41.14  │
+-- │ OR-174          │ 38.0           │ 7.98  │ 45.98  │
+-- │ OR-176          │ 46.0           │ 9.66  │ 55.66  │
+-- │ OR-177          │ 162.0          │ 34.02 │ 196.02 │
+-- │ OR-179          │ 5.0            │ 1.05  │ 6.05   │
+-- │ OR-181          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-186          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-188          │ 24.0           │ 5.04  │ 29.04  │
+-- │ OR-193          │ 21.0           │ 4.41  │ 25.41  │
+-- │ OR-196          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-200          │ 13.0           │ 2.73  │ 15.73  │
+-- │ OR-203          │ 17.0           │ 3.57  │ 20.57  │
+-- │ OR-204          │ 58.0           │ 12.18 │ 70.18  │
+-- │ OR-205          │ 18.0           │ 3.78  │ 21.78  │
+-- │ OR-206          │ 9.0            │ 1.89  │ 10.89  │
+-- │ OR-207          │ 7.0            │ 1.47  │ 8.47   │
+-- │ OR-208          │ 23.0           │ 4.83  │ 27.83  │
+-- │ OR-209          │ 58.0           │ 12.18 │ 70.18  │
+-- │ OR-210          │ 111.0          │ 23.31 │ 134.31 │
+-- │ OR-211          │ 117.0          │ 24.57 │ 141.57 │
+-- │ OR-213          │ 242.0          │ 50.82 │ 292.82 │
+-- │ OR-214          │ 220.0          │ 46.2  │ 266.2  │
+-- │ OR-217          │ 66.0           │ 13.86 │ 79.86  │
+-- │ OR-218          │ 44.0           │ 9.24  │ 53.24  │
+-- │ OR-222          │ 90.0           │ 18.9  │ 108.9  │
+-- │ OR-225          │ 80.0           │ 16.8  │ 96.8   │
+-- │ OR-226          │ 45.0           │ 9.45  │ 54.45  │
+-- │ OR-227          │ 118.0          │ 24.78 │ 142.78 │
+-- │ OR-234          │ 56.0           │ 11.76 │ 67.76  │
+-- │ OR-236          │ 84.0           │ 17.64 │ 101.64 │
+-- │ OR-237          │ 65.0           │ 13.65 │ 78.65  │
+-- │ OR-240          │ 5.0            │ 1.05  │ 6.05   │
+-- │ OR-241          │ 30.0           │ 6.3   │ 36.3   │
+-- │ OR-243          │ 53.0           │ 11.13 │ 64.13  │
+-- │ OR-247          │ 374.0          │ 78.54 │ 452.54 │
+-- │ OR-249          │ 34.0           │ 7.14  │ 41.14  │
+-- │ OR-250          │ 11.0           │ 2.31  │ 13.31  │
+-- │ OR-99           │ 34.0           │ 7.14  │ 41.14  │
+-- └─────────────────┴────────────────┴───────┴────────┘
+
 -- 57. Lista las ventas totales de los productos que hayan facturado más de 3000 euros. Se mostrará el nombre, unidades vendidas, total facturado y total facturado con impuestos (21% IVA).
+
+
+
 -- 58. Muestre la suma total de todos los pagos que se realizaron para cada uno de los años que aparecen en la tabla pagos.
 
 -- ## Subconsultas
 -- ### Con operadores básicos de comparación
 -- 59. Devuelve el nombre del cliente con mayor límite de crédito.
+
+sqlite> select nombre_cliente from cliente where limite_credito=(select max(limite_credito) from cliente); 
+
+-- ┌────────────────┐
+-- │ nombre_cliente │
+-- ├────────────────┤
+-- │ Tendo Garden   │
+-- └────────────────┘
+
 -- 60. Devuelve el nombre del producto que tenga el precio de venta más caro.
--- 61. Devuelve el nombre del producto del que se han vendido más unidades. (Tenga en cuenta que tendrá que calcular cuál es el número total de unidades que se han vendido de cada producto a partir de los datos de la tabla detalle_pedido)
+
+sqlite> select nombre from producto where precio_venta=(select max(precio_venta) from producto);
+
+-- ┌───────────────────────┐
+-- │        nombre         │
+-- ├───────────────────────┤
+-- │ Trachycarpus Fortunei │
+-- └───────────────────────┘
+
+-- 61. Devuelve el nombre del producto del que se han vendido más unidades. (Tenga en cuenta que tendrá que calcular cuál es el número total de unidades que se 
+-- han vendido de cada producto a partir de los datos de la tabla detalle_pedido)
+
+sqlite> select nombre from producto where codigo_producto=(select codigo_producto from detalle_pedido where cantidad=(select max(cantidad) from detalle_pedido));
+
+-- ┌──────────────────────────────────┐
+-- │              nombre              │
+-- ├──────────────────────────────────┤
+-- │ Thymus Citriodra (Tomillo limón) │
+-- └──────────────────────────────────┘
+
 -- 62. Los clientes cuyo límite de crédito sea mayor que los pagos que haya realizado. (Sin utilizar INNER JOIN).
+
+sqlite> select c.nombre_cliente from cliente as c where limite_credito > (select total from pago where pago.codigo_cliente=c.codigo_cliente);
+
+-- ┌────────────────────────────────┐
+-- │         nombre_cliente         │
+-- ├────────────────────────────────┤
+-- │ GoldFish Garden                │
+-- │ Gardening Associates           │
+-- │ Tendo Garden                   │
+-- │ Beragua                        │
+-- │ Naturagua                      │
+-- │ Camunas Jardines S.L.          │
+-- │ Dardena S.A.                   │
+-- │ Jardin de Flores               │
+-- │ Golf S.A.                      │
+-- │ Sotogrande                     │
+-- │ Jardines y Mansiones Cactus SL │
+-- │ Jardinerías Matías SL          │
+-- │ Tutifruti S.A                  │
+-- │ El Jardin Viviente S.L         │
+-- └────────────────────────────────┘
+
 -- 63. Devuelve el producto que más unidades tiene en stock.
+
+sqlite> select nombre from producto group by nombre having sum(cantidad_en_stock)=(select sum(cantidad_en_stock) as cantidad from producto group by nombre order by cantidad desc limit 1);
+
+-- ┌───────────────┐
+-- │    nombre     │
+-- ├───────────────┤
+-- │ Albaricoquero │
+-- └───────────────┘
+
 -- 64. Devuelve el producto que menos unidades tiene en stock.
+
+sqlite> select nombre from producto group by nombre having sum(cantidad_en_stock)=(select sum(cantidad_en_stock) as cantidad from producto group by nombre order by cantidad limit 1);      
+-- ┌────────────────┐
+-- │     nombre     │
+-- ├────────────────┤
+-- │ Dracaena Drago │
+-- └────────────────┘
+
 -- 65. Devuelve el nombre, los apellidos y el email de los empleados que están a cargo de Alberto Soria.
+
+sqlite> select nombre, apellido1, apellido2, email from empleado where codigo_empleado=(select codigo_jefe from empleado where nombre in ("Alberto") and apellido1 in ("Soria"));
+
+-- ┌────────┬───────────┬───────────┬──────────────────────┐
+-- │ nombre │ apellido1 │ apellido2 │        email         │
+-- ├────────┼───────────┼───────────┼──────────────────────┤
+-- │ Ruben  │ López     │ Martinez  │ rlopez@jardineria.es │
+-- └────────┴───────────┴───────────┴──────────────────────┘
 
 -- ### Subconsultas con IN y NOT IN
 -- 66. Devuelve el nombre, apellido1 y cargo de los empleados que no representen a ningún cliente.
+
+sqlite> select nombre, apellido1,puesto from empleado where codigo_empleado not in (select codigo_empleado_rep_ventas from cliente);
+
+-- ┌─────────────┬────────────┬───────────────────────┐
+-- │   nombre    │ apellido1  │        puesto         │
+-- ├─────────────┼────────────┼───────────────────────┤
+-- │ Marcos      │ Magaña     │ Director General      │
+-- │ Ruben       │ López      │ Subdirector Marketing │
+-- │ Alberto     │ Soria      │ Subdirector Ventas    │
+-- │ Maria       │ Solís      │ Secretaria            │
+-- │ Juan Carlos │ Ortiz      │ Representante Ventas  │
+-- │ Carlos      │ Soria      │ Director Oficina      │
+-- │ Hilario     │ Rodriguez  │ Representante Ventas  │
+-- │ David       │ Palma      │ Representante Ventas  │
+-- │ Oscar       │ Palma      │ Representante Ventas  │
+-- │ Francois    │ Fignon     │ Director Oficina      │
+-- │ Laurent     │ Serra      │ Representante Ventas  │
+-- │ Hilary      │ Washington │ Director Oficina      │
+-- │ Marcus      │ Paxton     │ Representante Ventas  │
+-- │ Nei         │ Nishikori  │ Director Oficina      │
+-- │ Narumi      │ Riko       │ Representante Ventas  │
+-- │ Takuma      │ Nomura     │ Representante Ventas  │
+-- │ Amy         │ Johnson    │ Director Oficina      │
+-- │ Larry       │ Westfalls  │ Representante Ventas  │
+-- │ John        │ Walton     │ Representante Ventas  │
+-- │ Kevin       │ Fallmer    │ Director Oficina      │
+-- └─────────────┴────────────┴───────────────────────┘
+
 -- 67. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.
+
+sqlite> select nombre_cliente from cliente where codigo_cliente not in (select codigo_cliente from pago);
+┌─────────────────────────────┐
+│       nombre_cliente        │
+├─────────────────────────────┤
+│ Lasas S.A.                  │
+│ Club Golf Puerta del hierro │
+│ DaraDistribuciones          │
+│ Madrileña de riegos         │
+│ Lasas S.A.                  │
+│ Flowers, S.A                │
+│ Naturajardin                │
+│ Americh Golf Management SL  │
+│ Aloha                       │
+│ El Prat                     │
+│ Vivero Humanes              │
+│ Fuenla City                 │
+│ Top Campo                   │
+│ Campohermoso                │
+│ france telecom              │
+│ Musée du Louvre             │
+│ Flores S.L.                 │
+│ The Magic Garden            │
+└─────────────────────────────┘
+
 -- 68. Devuelve un listado que muestre solamente los clientes que sí han realizado algún pago.
+
+sqlite> select nombre_cliente from cliente where codigo_cliente in (select codigo_cliente from pago);     
+
+-- ┌────────────────────────────────┐
+-- │         nombre_cliente         │
+-- ├────────────────────────────────┤
+-- │ GoldFish Garden                │
+-- │ Gardening Associates           │
+-- │ Gerudo Valley                  │
+-- │ Tendo Garden                   │
+-- │ Beragua                        │
+-- │ Naturagua                      │
+-- │ Camunas Jardines S.L.          │
+-- │ Dardena S.A.                   │
+-- │ Jardin de Flores               │
+-- │ Flores Marivi                  │
+-- │ Golf S.A.                      │
+-- │ Sotogrande                     │
+-- │ Jardines y Mansiones Cactus SL │
+-- │ Jardinerías Matías SL          │
+-- │ Agrojardin                     │
+-- │ Jardineria Sara                │
+-- │ Tutifruti S.A                  │
+-- │ El Jardin Viviente S.L         │
+-- └────────────────────────────────┘
+
 -- 69. Devuelve un listado de los productos que nunca han aparecido en un pedido.
+
+sqlite> select nombre from producto where codigo_producto not in (select codigo_producto from detalle_pedido);
+
+-- ┌─────────────────────────────────────────────────────────────┐
+-- │                           nombre                            │
+-- ├─────────────────────────────────────────────────────────────┤
+-- │ Olea-Olivos                                                 │
+-- │ Calamondin Mini                                             │
+-- │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ Landora Amarillo, Rose Gaujard bicolor blanco-rojo          │
+-- │ Kordes Perfect bicolor rojo-amarillo, Roundelay rojo fuerte │
+-- │ Albaricoquero Corbato                                       │
+-- │ Albaricoquero Moniqui                                       │
+-- │ Albaricoquero Kurrot                                        │
+-- │ Cerezo Burlat                                               │
+-- │ Cerezo Picota                                               │
+-- │ Ciruelo R. Claudia Verde                                    │
+-- │ Ciruelo Golden Japan                                        │
+-- │ Ciruelo Claudia Negra                                       │
+-- │ Higuera Verdal                                              │
+-- │ Higuera Breva                                               │
+-- │ Melocotonero Spring Crest                                   │
+-- │ Melocotonero Federica                                       │
+-- │ Parra Uva de Mesa                                           │
+-- │ Mandarino -Plantón joven                                    │
+-- │ Peral Castell                                               │
+-- │ Peral Williams                                              │
+-- │ Peral Conference                                            │
+-- │ Olivo Cipresino                                             │
+-- │ Albaricoquero                                               │
+-- │ Albaricoquero                                               │
+-- │ Albaricoquero                                               │
+-- │ Cerezo                                                      │
+-- │ Cerezo                                                      │
+-- │ Cerezo                                                      │
+-- │ Ciruelo                                                     │
+-- │ Granado                                                     │
+-- │ Granado                                                     │
+-- │ Granado                                                     │
+-- │ Higuera                                                     │
+-- │ Manzano                                                     │
+-- │ Melocotonero                                                │
+-- │ Melocotonero                                                │
+-- │ Melocotonero                                                │
+-- │ Membrillero                                                 │
+-- │ Membrillero                                                 │
+-- │ Membrillero                                                 │
+-- │ Membrillero                                                 │
+-- │ Arbustos Mix Maceta                                         │
+-- │ Mimosa Injerto CLASICA Dealbata                             │
+-- │ Mimosa Semilla Bayleyana                                    │
+-- │ Mimosa Semilla Espectabilis                                 │
+-- │ Mimosa Semilla Longifolia                                   │
+-- │ Mimosa Semilla Floribunda 4 estaciones                      │
+-- │ Abelia Floribunda                                           │
+-- │ Callistemom (Mix)                                           │
+-- │ Callistemom (Mix)                                           │
+-- │ Corylus Avellana \"Contorta\"                               │
+-- │ Escallonia (Mix)                                            │
+-- │ Evonimus Emerald Gayeti                                     │
+-- │ Evonimus Pulchellus                                         │
+-- │ Hibiscus Syriacus  \"Helene\" -Blanco-C.rojo                │
+-- │ Hibiscus Syriacus \"Pink Giant\" Rosa                       │
+-- │ Lonicera Nitida \"Maigrum\"                                 │
+-- │ Prunus pisardii                                             │
+-- │ Weigelia \"Bristol Ruby\"                                   │
+-- │ Leptospermum formado PIRAMIDE                               │
+-- │ Leptospermum COPA                                           │
+-- │ Nerium oleander-CALIDAD \"GARDEN\"                          │
+-- │ Nerium Oleander Arbusto GRANDE                              │
+-- │ Nerium oleander COPA  Calibre 6/8                           │
+-- │ ROSAL TREPADOR                                              │
+-- │ Camelia Blanco, Chrysler Rojo, Soraya Naranja,              │
+-- │ Solanum Jazminoide                                          │
+-- │ Wisteria Sinensis  azul, rosa, blanca                       │
+-- │ Wisteria Sinensis INJERTADAS DECÃ"                          │
+-- │ Bougamvillea Sanderiana Tutor                               │
+-- │ Bougamvillea Sanderiana Espaldera                           │
+-- │ Bougamvillea Sanderiana Espaldera                           │
+-- │ Bougamvillea Sanderiana, 3 tut. piramide                    │
+-- │ Expositor Árboles clima mediterráneo                        │
+-- │ Expositor Árboles borde del mar                             │
+-- │ Brachychiton Acerifolius                                    │
+-- │ Cassia Corimbosa                                            │
+-- │ Cassia Corimbosa                                            │
+-- │ Chitalpa Summer Bells                                       │
+-- │ Erytrina Kafra                                              │
+-- │ Eucalyptus Citriodora                                       │
+-- │ Eucalyptus Ficifolia                                        │
+-- │ Hibiscus Syriacus  Var. Injertadas 1 Tallo                  │
+-- │ Lagunaria Patersonii                                        │
+-- │ Lagunaria Patersonii                                        │
+-- │ Morus Alba                                                  │
+-- │ Platanus Acerifolia                                         │
+-- │ Salix Babylonica  Pendula                                   │
+-- │ Tamarix  Ramosissima Pink Cascade                           │
+-- │ Tecoma Stands                                               │
+-- │ Tecoma Stands                                               │
+-- │ Tipuana Tipu                                                │
+-- │ Pleioblastus distichus-Bambú enano                          │
+-- │ Sasa palmata                                                │
+-- │ Phylostachys aurea                                          │
+-- │ Phylostachys aurea                                          │
+-- │ Phylostachys Bambusa Spectabilis                            │
+-- │ Phylostachys biseti                                         │
+-- │ Pseudosasa japonica (Metake)                                │
+-- │ Pseudosasa japonica (Metake)                                │
+-- │ Cedrus Deodara \"Feeling Blue\" Novedad                     │
+-- │ Juniperus chinensis \"Blue Alps\"                           │
+-- │ Juniperus Chinensis Stricta                                 │
+-- │ Juniperus squamata \"Blue Star\"                            │
+-- │ Juniperus x media Phitzeriana verde                         │
+-- │ Bismarckia Nobilis                                          │
+-- │ Brahea Armata                                               │
+-- │ Brahea Edulis                                               │
+-- │ Butia Capitata                                              │
+-- │ Butia Capitata                                              │
+-- │ Butia Capitata                                              │
+-- │ Chamaerops Humilis                                          │
+-- │ Chamaerops Humilis                                          │
+-- │ Chamaerops Humilis \"Cerifera\"                             │
+-- │ Chrysalidocarpus Lutescens -ARECA                           │
+-- │ Cordyline Australis -DRACAENA                               │
+-- │ Cycas Revoluta                                              │
+-- │ Cycas Revoluta                                              │
+-- │ Dracaena Drago                                              │
+-- │ Dracaena Drago                                              │
+-- │ Livistonia Decipiens                                        │
+-- │ Livistonia Decipiens                                        │
+-- │ Rhaphis Excelsa                                             │
+-- │ Sabal Minor                                                 │
+-- │ Sabal Minor                                                 │
+-- │ Trachycarpus Fortunei                                       │
+-- │ Washingtonia Robusta                                        │
+-- │ Zamia Furfuracaea                                           │
+-- └─────────────────────────────────────────────────────────────┘
+
 -- 70. Devuelve el nombre, apellidos, puesto y teléfono de la oficina de aquellos empleados que no sean representante de ventas de ningún cliente.
+
+sqlite> select nombre, apellido1,apellido2, puesto, telefono from empleado, oficina where empleado.codigo_oficina=oficina.codigo_oficina and codigo_empleado not in (select codigo_empleado_rep_ventas from cliente);
+
+-- ┌─────────────┬────────────┬───────────┬───────────────────────┬─────────────────┐
+-- │   nombre    │ apellido1  │ apellido2 │        puesto         │    telefono     │
+-- ├─────────────┼────────────┼───────────┼───────────────────────┼─────────────────┤
+-- │ Marcos      │ Magaña     │ Perez     │ Director General      │ +34 925 867231  │
+-- │ Ruben       │ López      │ Martinez  │ Subdirector Marketing │ +34 925 867231  │
+-- │ Alberto     │ Soria      │ Carrasco  │ Subdirector Ventas    │ +34 925 867231  │
+-- │ Maria       │ Solís      │ Jerez     │ Secretaria            │ +34 925 867231  │
+-- │ Juan Carlos │ Ortiz      │ Serrano   │ Representante Ventas  │ +34 925 867231  │
+-- │ Carlos      │ Soria      │ Jimenez   │ Director Oficina      │ +34 91 7514487  │
+-- │ Hilario     │ Rodriguez  │ Huertas   │ Representante Ventas  │ +34 91 7514487  │
+-- │ David       │ Palma      │ Aceituno  │ Representante Ventas  │ +34 93 3561182  │
+-- │ Oscar       │ Palma      │ Aceituno  │ Representante Ventas  │ +34 93 3561182  │
+-- │ Francois    │ Fignon     │           │ Director Oficina      │ +33 14 723 4404 │
+-- │ Laurent     │ Serra      │           │ Representante Ventas  │ +33 14 723 4404 │
+-- │ Hilary      │ Washington │           │ Director Oficina      │ +1 215 837 0825 │
+-- │ Marcus      │ Paxton     │           │ Representante Ventas  │ +1 215 837 0825 │
+-- │ Nei         │ Nishikori  │           │ Director Oficina      │ +81 33 224 5000 │
+-- │ Narumi      │ Riko       │           │ Representante Ventas  │ +81 33 224 5000 │
+-- │ Takuma      │ Nomura     │           │ Representante Ventas  │ +81 33 224 5000 │
+-- │ Amy         │ Johnson    │           │ Director Oficina      │ +44 20 78772041 │
+-- │ Larry       │ Westfalls  │           │ Representante Ventas  │ +44 20 78772041 │
+-- │ John        │ Walton     │           │ Representante Ventas  │ +44 20 78772041 │
+-- │ Kevin       │ Fallmer    │           │ Director Oficina      │ +61 2 9264 2451 │
+-- └─────────────┴────────────┴───────────┴───────────────────────┴─────────────────┘
+
 -- 71. Devuelve las oficinas donde no trabajan ninguno de los empleados que hayan sido los representantes de ventas de algún cliente que haya realizado la compra de algún producto de la gama Frutales.
+
+sqlite> select codigo_oficina from oficina where codigo_oficina not in 
+(select codigo_oficina from empleado where codigo_empleado in 
+(select codigo_empleado_rep_ventas from cliente where codigo_cliente in 
+(select codigo_cliente from pedido where codigo_pedido in 
+(select codigo_pedido from detalle_pedido where codigo_producto in 
+(select codigo_producto from producto where gama in ("Frutales"))))));
+
+-- ┌────────────────┐
+-- │ codigo_oficina │
+-- ├────────────────┤
+-- │ LON-UK         │
+-- │ PAR-FR         │
+-- │ TOK-JP         │
+-- └────────────────┘
 -- 72. Devuelve un listado con los clientes que han realizado algún pedido pero no han realizado ningún pago.
+
+sqlite> select nombre_cliente from cliente where codigo_cliente in (select codigo_cliente from pedido) and codigo_cliente not in (select codigo_cliente from pago);
+
+-- ┌────────────────┐
+-- │ nombre_cliente │
+-- ├────────────────┤
+-- │ Flores S.L.    │
+-- └────────────────┘
 
 -- ## Subconsultas con EXISTS y NOT EXISTS
 -- 73. Devuelve un listado que muestre solamente los clientes que no han realizado ningún pago.

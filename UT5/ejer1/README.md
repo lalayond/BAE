@@ -79,4 +79,36 @@ A continuación se cambiará algunas de las configuraciones de MySQL:
 
     ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'mynewpassword.';
 
+Y para cambiar las opciones de seguridad: 
+
+    sudo mysql_secure_installation
+
+Una vez hecho esto nos pedirá configurar una serie de opciones donde además estableceremos al contrasña del root deseada.
+
+# Creación de usuario
+
+Para crear un nuevo usuario, deberemos de entrar a MySQL (como hemos hecho anteriormente) y lanzar la siguiente sentencia:
+
+    CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password'
+
+Una vez hecho esto, es necesario darle una serie de permisos al usuario para que pueda trabajar con la bases de datos. Para ello: 
+
+    GRAN ALL PRIVILEGES ON * . * TO 'jdimas'@'localhost';
+
+Una vez hecho esto, el usuario tendrá los mismos privilegios que el root (cuidado con esto). Así pues, para iniciar con el nuevo usuario será tan facil como: 
+
+    mysql -u [username] -p
+
+# Instalación de WorkBench
+
+Por último, para poder trabajar con MySQL por medio de un interfaz gráfica utilizaremos WorkBench.
+
+Existen diversas formas de instalación. No obstante en nuestro caso se ha utilizado snap: 
+
+    snap install mysql-workbench-community
+
+Una vez instalado, para inicializarlo solo habrá que escribir la siguiente linea: 
+
+    mysql-workbench-community
+
 </div>

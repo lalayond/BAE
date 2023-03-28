@@ -45,4 +45,8 @@ BEGIN
     SELECT count(ref_proyecto) FROM cientifico_proyecto GROUP BY ref_cientifico;
 END $$ -- fin del delimitador
 
+DELIMITER $$ -- comienzo del delimitador
+CREATE PROCEDURE obtener_numero_cientificos
+BEGIN
+    SELECT count(cp.ref_cientifico),cp.ref_proyecto, p.nombre FROM proyecto as p join cientifico_proyecto as cp on cp.ref_proyecto=p.id GROUP BY cp.ref_proyecto;
 
